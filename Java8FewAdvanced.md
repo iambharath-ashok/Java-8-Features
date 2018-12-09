@@ -150,3 +150,7 @@
 				
 	-	Earlier Date and Time classes are not Thread safe
 	-	Java 8 Classes are Thread Safe
+## 12.	Method Reference 
+
+
+	-	Anonymous inner classes can be expresses in Java 8 either by Lambda Expressions or Method Reference 		
