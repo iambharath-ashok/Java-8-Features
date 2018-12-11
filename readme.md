@@ -137,8 +137,13 @@ Java 8 Features
 
     -	Once we have Stream we can process the collections is two steps
 
-      1.	Configuring the Stream
+      1.	Configuring the Stream or Pipelining or Intermediate Operations
+      
         -	Configuration can be done in two ways 
+        - Intermediate Operations can be connected together as their return type is Stream
+        - Intermediate operations are not invoked until terminal operation is invoked
+        - Some intermediate functions are filter(), sorted(), map(),limit()
+        - Some Filter and matching operation methods are filter(), skip(), limit(), distinct()
 
           1.	Filter
 
@@ -155,8 +160,16 @@ Java 8 Features
                 -	It may create a new Collection or modify the existing objects on the collections
 
 
-      2.	Processing the Collections
+      2.	Processing the Collections or Terminal Operations 
 
           -	 To process the collections Stream provides multiple methods like 
-
-              collect(), count(), sum(), min(), max()
+          -  Operations that closes the stream are called Terminal Operations
+          -  Terminal Operations produces results from Pipeline such as List, Integer are even void
+          -  Finding and Matching - anyMatch(), allMatch(), noneMatch()
+          -  findFirst(), findAny()
+          - 
+  
+              collect(), count(), sum(), min(), max(), forEach()
+              
+              
+### https://www.oracle.com/technetwork/articles/java/ma14-java-se-8-streams-2177646.html              
