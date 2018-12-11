@@ -110,20 +110,24 @@ Java 8 Features
   7. 	Stream API
   
   
-      - Stream is a sequence of elements from source that support aggregate functions like sorting, filter, grouping, find, match, reduce, map ... etc
+    - Stream is a sequence of elements from source that support aggregate functions like sorting, filter, grouping, find, match, reduce, map ... etc
     - Stream makes best use of multi-core architecture ... developer no needs to worry about or write a single line of code Multithread code
     -	Stream helps to process the data in a declarative manner -> similar to SQL 
     -	Stream makes it easy the process the data or Objects inside a Collections
     -	Processing Collections
+    - Collections is about data and stream is about computation
 
       -	java.util.stream.Stream -> is an interface
       -	We can get a Stream on Collections by invoking stream() method on top of Collection Implementation Type
       - Stream Operations have two characteristics
       
         1.  Pipelining 
+        
           - Many stream operations returns Stream itself to chain to form a larger pipeline
           - Pipelining enables optimizations such as laziness and short-circuting
+        
         2.  Internal Iteration
+        
           - Collection elements are iterated explicity frequently
           - Instead of iterating explicitly stream handles iteration internally 
 
