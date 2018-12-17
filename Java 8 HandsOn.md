@@ -195,8 +195,9 @@
 				}
 			}
 			
-			Output :
-				[aaaa, bbbbbb, dddd, ffff, rrr]						
+		Output :
+			[aaaa, bbbbbb, dddd, ffff, rrr]						
+			
 	3.	Method Reference
 	
 		Code Snippets
@@ -212,10 +213,12 @@
 				}
 			}
 			
-			Output :
-				[aaaa, bbbbbb, dddd, ffff, rrr]
+		Output :
+			[aaaa, bbbbbb, dddd, ffff, rrr]
 
-				-	List of Custom Objects
+-	List of Custom Objects
+
+	
 					
 					
 						
