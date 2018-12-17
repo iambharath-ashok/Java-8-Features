@@ -151,9 +151,73 @@
 
 						
 
-			-	Code Snippets
+			###	Code Snippets
 			
-				-	
+				-	List of Strings
+					
+					1.	Implementing Comparator Interface	
+					
+						Code Snippets:
+						
+							public class ListStringSortingBeforeJava8 {
+
+								public static void main(String[] args) {
+
+									String[] stringArray = new String[] { "ffff", "rrr", "dddd", "aaaa", "bbbbbb" };
+									List<String> stringList = Arrays.asList(stringArray);
+									
+									*Comparator<String> c = new StringComparator();*
+									stringList.sort(c);
+								}
+							}
+							
+							class StringComparator implements Comparator<String> {
+								public int compare(String s1, String s2) {
+									return s1.compareTo(s2);
+								}
+							}
+							
+						Output :
+								[aaaa, bbbbbb, dddd, ffff, rrr]		
+							
+					2.	Lambda Expression
+					
+						Code Snippets:
+
+							public class ListStringSortingLambda {
+								public static void main(String[] args) {
+									String[] stringArray = new String[] { "ffff", "rrr", "dddd", "aaaa", "bbbbbb" };
+									List<String> stringList = Arrays.asList(stringArray);
+
+									Comparator<String> c = (s1, s2) -> s1.compareTo(s2);
+									stringList.sort(c);
+									System.out.println(stringList);
+								}
+							}
+							
+							Output :
+								[aaaa, bbbbbb, dddd, ffff, rrr]						
+					3.	Method Reference
+					
+						Code Snippets
+						
+							public class ListStringSortingMethodReference {
+								public static void main(String[] args) {
+									String[] stringArray = new String[] { "ffff", "rrr", "dddd", "aaaa", "bbbbbb" };
+									List<String> stringList = Arrays.asList(stringArray);
+									
+									Comparator<String> stringComparator = new StringComparator();
+									stringList.sort(stringComparator::compare);
+									System.out.println(stringList);
+								}
+							}
+							
+							Output :
+								[aaaa, bbbbbb, dddd, ffff, rrr]
+
+				-	List of Custom Objects
+					
+					
 						
 				
 ## 2.	forEach() method of Iterable Interface
@@ -419,3 +483,8 @@
 	
 	
 ====================================================	
+	
+	
+	
+	
+	
