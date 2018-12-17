@@ -153,6 +153,51 @@
 
 ###	Code Snippets of Comparator
 
+
+-	Using Collections.sort() 
+	
+	1.	Sorting String List in Natural Order
+	
+		Code Snippets:
+		
+			public class SortingUsingCollectionsSort {
+				public static void main(String[] args) {
+					String[] stringArray = new String[] { "ffff", "rrr", "dddd", "aaaa", "bbbbbb" };
+					List<String> stringList = Arrays.asList(stringArray);
+					
+					Collections.sort(stringList);
+				}
+			}
+		Output :
+				[aaaa, bbbbbb, dddd, ffff, rrr]		
+			
+
+		
+	2.	Sorting String List In Reverse Order
+			
+		Code Snippets:
+			
+			public class SortingUsingCollectionsSortReverseOrder {
+				public static void main(String[] args) {
+					String[] stringArray = new String[] { "ffff", "rrr", "dddd", "aaaa", "bbbbbb" };
+					List<String> stringList = Arrays.asList(stringArray);
+
+					Collections.sort(stringList, new Comparator<String>() {
+						@Override
+						public int compare(String s1, String s2) {
+							return s2.compareTo(s1);
+						}
+					});
+					System.out.println(stringList);
+				}
+			}
+		Output :
+				[rrr, ffff, dddd, bbbbbb, aaaa]
+				
+	3.	Sorting Custom Objects
+
+		
+	
 -	List of Strings
 	
 	1.	Implementing Comparator Interface	
@@ -218,11 +263,126 @@
 
 -	List of Custom Objects
 
+
+	1.	Implementing Comparator Interface using it on List.sort() method
 	
-					
-					
-						
+		Code Snippets :
+		
+			class Hosting {
+				private int id;
+				private String name;
+				private Long websites;
 				
+				//getters and setters
+			}
+
+			class HostingComparator implements Comparator<Hosting> {
+				@Override
+				public int compare(Hosting h1, Hosting h2) {
+					return h1.getWebsites().compareTo(h2.getWebsites());
+				}
+			}
+
+			public class SortingCustomObjectsUsingListSort {
+				public static void main(String[] args) {
+					List<Hosting> hostingList = getHostings();
+					
+					System.out.println("Before Sorting");
+					System.out.println("=========================================================");
+					hostingList.forEach(System.out::println);
+					
+					Comparator<Hosting> c = new HostingComparator();
+					hostingList.sort(c);
+					
+					System.out.println("After Sorting");
+					System.out.println("=========================================================");
+					
+					hostingList.forEach(System.out::println);
+				}
+				public static List<Hosting> getHostings() {
+					return Arrays.asList(new Hosting(1, "aws.amazon.com", 200000l), new Hosting(2, "linode.com", 9999l),
+							new Hosting(4, "heroku.com", 4444001l), new Hosting(3, "digitalocean.com", 109903l));
+				}
+			}
+		
+		Output :
+			Before Sorting
+			=========================================================
+			Hosting [id=1, name=aws.amazon.com, websites=200000]
+			Hosting [id=2, name=linode.com, websites=9999]
+			Hosting [id=4, name=heroku.com, websites=4444001]
+			Hosting [id=3, name=digitalocean.com, websites=109903]
+			After Sorting
+			=========================================================
+			Hosting [id=2, name=linode.com, websites=9999]
+			Hosting [id=3, name=digitalocean.com, websites=109903]
+			Hosting [id=1, name=aws.amazon.com, websites=200000]
+			Hosting [id=4, name=heroku.com, websites=4444001]
+			
+			
+	2.	Using Lambda Expression of Comparator Impl on List.sort() method
+	
+		Code Snippets :
+			
+				Comparator<Hosting> c = (h1,h2) -> h1.getWebsites().compareTo(h2.getWebsites());
+				hostingList.sort(c);
+				hostingList.forEach(System.out::println);
+			
+	3.	Using Method Reference of Comparator Impl on List.sort() method
+		
+		Code Snippets :
+			
+				HostingComparator hc = new HostingComparator();
+				Comparator<Hosting> c = hc::compare;
+				hostingList.sort(c);
+				hostingList.forEach(System.out::println);
+				
+	4.	Using Lambda Expression of Custom Comparator on List.stream().sorted() 
+		
+		-	If we use stream it will not modify the existing source or list
+		-	After sorting we call the terminal stream operation and collect it to new List 
+		
+		Code Snippets :
+		
+			Comparator<Hosting> c = new HostingComparator();
+			List<Hosting> sortedHostingList = hostingList.stream().sorted(c).collect(Collectors.toList());
+			sortedHostingList.forEach(System.out::println);
+			
+			
+	6.	Using Comparator Lambda Expression and Method Expression on List.stream().sorted()
+
+		Code Snippets :
+			
+			1. Method Reference
+			
+				List<Hosting> sortByWebsites = hostingList.stream().sorted(Comparator.comparingLong(Hosting::getWebsites)).collect(Collectors.toList());
+				List<Hosting> sortById = hostingList.stream().sorted(Comparator.comparingInt(Hosting::getId)).collect(Collectors.toList());
+				List<Hosting> sortByName = hostingList.stream().sorted(Comparator.comparing(Hosting::getName)).collect(Collectors.toList());
+			
+			2. Lambda Expression
+			
+				List<Hosting> sortByWebsites = hostingList.stream().sorted(Comparator.comparingLong(h -> h.getWebsites())).collect(Collectors.toList());
+				List<Hosting> sortById = hostingList.stream().sorted(Comparator.comparingInt(h -> h.getId())).collect(Collectors.toList());
+				List<Hosting> sortByName = hostingList.stream().sorted(Comparator.comparing(h -> h.getName())).collect(Collectors.toList());
+			
+	
+	8.	Sorting Reverse Order using Lambda Expression and Method Reference on List.stream().sorted()
+	
+		Code Snippets :
+			
+			1. Method Reference
+			
+				List<Hosting> sortByWebsites = hostingList.stream().sorted(Comparator.comparingLong(Hosting::getWebsites).reversed()).collect(Collectors.toList());
+				List<Hosting> sortById = hostingList.stream().sorted(Comparator.comparingInt(Hosting::getId).reversed()).collect(Collectors.toList());
+				List<Hosting> sortByName = hostingList.stream().sorted(Comparator.comparing(Hosting::getName).reversed()).collect(Collectors.toList());
+			
+			2. Lambda Expression
+			
+				List<Hosting> sortByWebsites = hostingList.stream().sorted(Comparator.comparingLong(h -> h.getWebsites())).collect(Collectors.toList());
+				List<Hosting> sortById = hostingList.stream().sorted(Comparator.comparingInt(h -> h.getId()).reversed()).collect(Collectors.toList());
+				List<Hosting> sortByName = hostingList.stream().sorted(Comparator.comparing(h -> h.getName()).reversed()).collect(Collectors.toList());
+				
+			
 ## 2.	forEach() method of Iterable Interface
 
 	-	forEach() is a terminal method in Java Functional Programming
