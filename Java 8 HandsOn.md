@@ -80,7 +80,7 @@
 		-	We can create a stream from file or collection, array or even numbers
 		-	Stream.of and Arrays.stream() can be used to build the stream out of array			
 		
-===========================================================================	
+----------------------------------------------------------------------------------------
 
 # Contents 
 
@@ -93,8 +93,8 @@
 	7.	convert Stream to List
 	8.	Array to Stream
 	9.	Stream is already Operated upon and Supplier
-	10.  Sort  a Map
-	11.	 List to Map
+	10.  Sort a Map
+	11.  List to Map
 	12.	 Filter a Map
 	13.	 flatMap
 	14.	 convert Map to List
@@ -105,9 +105,9 @@
 	19.	 String to Char Array
 	20.	 Covert Primitive Primitive array to List
 
-
+----------------------------------------------------------------------------------------
 		
-## 1. Comparator to sort the List or Set Custom Objects
+## 1. Comparator to sort the List Custom Objects
 
 	- 	List is a Data Structure
 	-	Custom Objects with few fields
@@ -150,7 +150,7 @@
 						}
 
 						
-
+			
 ###	Code Snippets of Comparator
 
 
@@ -306,7 +306,7 @@
 			}
 		
 		Output :
-			Before Sorting
+			*Before Sorting
 			=========================================================
 			Hosting [id=1, name=aws.amazon.com, websites=200000]
 			Hosting [id=2, name=linode.com, websites=9999]
@@ -317,7 +317,7 @@
 			Hosting [id=2, name=linode.com, websites=9999]
 			Hosting [id=3, name=digitalocean.com, websites=109903]
 			Hosting [id=1, name=aws.amazon.com, websites=200000]
-			Hosting [id=4, name=heroku.com, websites=4444001]
+			Hosting [id=4, name=heroku.com, websites=4444001]*
 			
 			
 	2.	Using Lambda Expression of Comparator Impl on List.sort() method
@@ -382,12 +382,131 @@
 				List<Hosting> sortById = hostingList.stream().sorted(Comparator.comparingInt(h -> h.getId()).reversed()).collect(Collectors.toList());
 				List<Hosting> sortByName = hostingList.stream().sorted(Comparator.comparing(h -> h.getName()).reversed()).collect(Collectors.toList());
 				
+----------------------------------------------------------------------------------------
+## Sorting Set Data Structure
+
+
+	-	Set impl HashSet doesn't allow duplicates and doesn't follow insertion order by default
+	-	HashSet doesn't allow null values 
+		
+		-	Throws NullPointerException if any 
+	
+	-	Set interface doesn't have sort method 
+	-	In-order to sort Set we can use TreeSet(SortedSet) or Convert it to list and then Sort ... return back as Set
+		
+### TreeSet and Sorted Set 
+	
+		-	SortedSet is a Set which follows some sort of ordering on its elements
+		-	Elements in SortedSet can be sorted in natural order using Comparable interface or in any custom order with Comparator interface
+		- 	TreeSet is a implementation of SortedSet interface
+		
+		Sorting using SortedSet and TreeSet
+			
+			-	SortedSet should know how to sort its elements as they are being added by using Comparable or Comparator interfaces
+			-	If elements implement Comparable interface then SortedSet will use compareTo() method to sort elements
+				-	This is called sorting in natural order
+			-	We can pass Comparator to do custom sorting
+			-	If Comparator is passed then it will ignore Comparable and uses Comparator
+			-	TreeSet is a implementation of SortedSet interface
+
+-	Sorting Set of Strings before Java 8
+	
+	1. Using Collections.sort() method to Sort Set
+	
+		Convert Set to List and use Collections.sort() method
+	
+		1.	Natural Order:
+		
+			Code Snippets :	
+			
+				String[] stringArray = new String[] { "dddd", "hhhh", "eeee", "bbbb", "pppp", "aaaa" };
+				Set<String> stringSet = new HashSet<>(Arrays.asList(stringArray););
+				System.out.println("Set before sorting" + stringSet);
+				List<String> stringArrayList = new ArrayList<>(stringSet);
+				Collections.sort(stringArrayList);
+				System.out.println("Set After Sorting" + stringArrayList);
+			
+			Output :
+			
+				Set Before sorting[hhhh, pppp, aaaa, dddd, bbbb, eeee]
+				Set After Sorting[aaaa, bbbb, dddd, eeee, hhhh, pppp]
+		
+		2.	Reverse Order by providing custom Comparator
+		
+			Code Snippets :
+			
+				String[] stringArray = new String[] { "dddd", "hhhh", "eeee", "bbbb", "pppp", "aaaa" };
+				Set<String> stringSet = new HashSet<>(Arrays.asList(stringArray));
+				System.out.println("Set before sorting" + stringSet);
+				List<String> stringArrayList = new ArrayList<>(stringSet);
+				
+				Comparator<String> c = new Comparator<String>() {
+					public int compare(String s1, String s2) {
+						return s2.compareTo(s1);
+					}
+				};
+				
+				Collections.sort(stringArrayList, c);
+				System.out.println("Set After Sorting" + stringArrayList);
+				
+			Output :
+
+				Set Before sorting[hhhh, pppp, aaaa, dddd, bbbb, eeee]
+				Set After Sorting[pppp, hhhh, eeee, dddd, bbbb, aaaa]
+
+	2.	Using SortedSet to sort Set
+		
+		1. Natural Order:
+
+			Code Snippets :
+			
+				String[] stringArray = new String[] { "dddd", "hhhh", "eeee", "bbbb", "pppp", "aaaa" };
+				List<String> stringList = Arrays.asList(stringArray);
+				System.out.println("Set Before sorting" + stringList);
+				Set<String> sortedSet = new TreeSet<>(stringList);
+				System.out.println("Set After sorting" + sortedSet);
+				
+			Output :
+				
+					Set Before sorting[dddd, hhhh, eeee, bbbb, pppp, aaaa]
+					Set After Sorting[aaaa, bbbb, dddd, eeee, hhhh, pppp]
+					
+		2.	Custom Order using Comparator
+		
+			Code Snippets :
+			
+				String[] stringArray = new String[] { "dddd", "hhhh", "eeee", "bbbb", "pppp", "aaaa" };
+				List<String> stringList = Arrays.asList(stringArray);
+				System.out.println("Set Before sorting" + stringList);
+				Comparator<String> c = new Comparator<String>() {
+					@Override
+					public int compare(String s1, String s2) {
+						return s2.compareTo(s1);
+					}
+				};
+				Set<String> sortedSet = new TreeSet<>(c);
+				sortedSet.addAll(stringList);
+				System.out.println("Set After sorting" + sortedSet);
+				
+			Output :
+
+				Set Before sorting[hhhh, pppp, aaaa, dddd, bbbb, eeee]
+				Set After Sorting[pppp, hhhh, eeee, dddd, bbbb, aaaa]	
+		
+-	Sorting Set of Custom Objects
+
+	
+-	Sorting Set of Custom and String in a particular order
+-	Sorting Set using Comparator
+-	Sorting Set in Java 8
+
+----------------------------------------------------------------------------------------
 			
 ## 2.	forEach() method of Iterable Interface
 
 	-	forEach() is a terminal method in Java Functional Programming
 	-	forEach() method is added to Iterable Interface from Java 8 
-		
+			
 		-	Collection interface extends Iterable interface
 		-	Will be available for all the Collection Impl Classes
 		
@@ -479,7 +598,7 @@
 						Map<Integer, String> map1 = filterByValue(someMap, s -> s.contains("someString"));
 						Map<Integer, String> map2 = filterByValue(someMap, s -> s.length()>3);
 		
-====================================================
+----------------------------------------------------------------------------------------
 
 ## 4.	collect() 
 
@@ -487,7 +606,7 @@
 	- 	Values can List, Set or Map
 	-	collect() method takes Collectors as an argument that returns set, map, count, sum of elements
 	
-====================================================
+----------------------------------------------------------------------------------------
 	
 ## 5.	findAny() and orElse
 
@@ -496,7 +615,7 @@
 	-	Optional is best way to avoid the null pointer exception
 	-	orElse() will get executed and returns default value
 	
-====================================================
+----------------------------------------------------------------------------------------
 ## 6.	Stream Collectors groupingBy Examples
 
 	##	https://docs.oracle.com/javase/8/docs/api/java/util/stream/Collectors.html
@@ -512,7 +631,7 @@
 
 
 
-====================================================
+----------------------------------------------------------------------------------------
 
 ## 16.	 String Joiner and String.join()
 
@@ -565,7 +684,7 @@
 			public static Collector<CharSequence, ?, String> joining(CharSequence delimiter)
 			public static Collector<CharSequence, ?, String> joining(CharSequence delimiter, CharSequence prefix, CharSequence suffix)
 		
-========================================
+----------------------------------------------------------------------------------------
 
 ## 17.	 Stream File Reader		
 		
@@ -587,7 +706,7 @@
 			
 		
 	
-========================================		
+----------------------------------------------------------------------------------------		
 
 ## 18. Join Arrays
 	
@@ -625,7 +744,7 @@
 					IntStream.concat(Arrays.stream(int2), Arrays.stream(int3))).toArray();
 				
 	
-============================================================	
+----------------------------------------------------------------------------------------	
 	
 	
 ## 19.	 String to Stream of Char Array
@@ -645,7 +764,7 @@
 	
 	
 	
-====================================================	
+----------------------------------------------------------------------------------------	
 	
 	
 	
