@@ -195,8 +195,126 @@
 				[rrr, ffff, dddd, bbbbbb, aaaa]
 				
 	3.	Sorting Custom Objects
-
+	
+		Custom Objects can be sorted with Collections.sort() by implementing Comparable and Comparator Interface
 		
+		1.	Comparable
+			
+			-	Comparable will be used at class declaration
+			-	Something like default sorting 
+			-	Below is the example used to sort by last name ... if both last name are same then will use first name as criteria for sorting
+			
+			
+			Code Snippets :	
+				
+				class Author implements Comparable<Author> {
+
+					String firstName;
+					String lastName;
+					String bookName;
+
+					Author(String firstName, String lastName, String bookName) {
+						this.firstName = firstName;
+						this.lastName = lastName;
+						this.bookName = bookName;
+					}
+
+					public int compareTo(Author a) {
+						int last = this.lastName.compareTo(a.lastName);
+						return last == 0 ? this.firstName.compareTo(a.firstName) : last;
+					}
+
+					@Override
+					public String toString() {
+						return "Author [firstName=" + firstName + ", lastName=" + lastName + ", bookName=" + bookName + "]";
+					}
+					
+				}
+
+				public class SortingCustomListObjectsByComparable {
+
+					public static void main(String[] args) {
+						List<Author>  authors = getAuthors();
+						
+						System.out.println("Before Sorting");
+						authors.forEach(System.out::println);
+						
+						Collections.sort(authors);
+						System.out.println("After Sorting");
+						authors.forEach(System.out::println);
+
+					}
+
+					public static List<Author> getAuthors() {
+						List<Author> al = new ArrayList<Author>();
+						al.add(new Author("Henry", "Miller", "Tropic of Cancer"));
+						al.add(new Author("Nalo", "Hopkinson", "Brown Girl in the Ring"));
+						al.add(new Author("Frank", "Miller", "300"));
+						al.add(new Author("Deborah", "Hopkinson", "Sky Boys"));
+						al.add(new Author("George R. R.", "Martin", "Song of Ice and Fire"));
+						return al;
+					}
+
+				}
+				
+			Output :
+			
+					Before Sorting :
+				
+					Author [firstName=Henry, lastName=Miller, bookName=Tropic of Cancer]
+					Author [firstName=Nalo, lastName=Hopkinson, bookName=Brown Girl in the Ring]
+					Author [firstName=Frank, lastName=Miller, bookName=300]
+					Author [firstName=Deborah, lastName=Hopkinson, bookName=Sky Boys]
+					Author [firstName=George R. R., lastName=Martin, bookName=Song of Ice and Fire]
+					
+					After Sorting
+					
+					Author [firstName=Deborah, lastName=Hopkinson, bookName=Sky Boys]
+					Author [firstName=Nalo, lastName=Hopkinson, bookName=Brown Girl in the Ring]
+					Author [firstName=George R. R., lastName=Martin, bookName=Song of Ice and Fire]
+					Author [firstName=Frank, lastName=Miller, bookName=300]
+					Author [firstName=Henry, lastName=Miller, bookName=Tropic of Cancer]
+
+		2.	Comparator
+		
+			-	Comparator will be used for custom sorting at runtime
+
+			Code Snippets :
+			
+				List<Author> authors = getAuthors();
+
+				System.out.println("Before Sorting");
+				authors.forEach(System.out::println);
+
+				Collections.sort(authors, new Comparator<Author>() {
+
+					@Override
+					public int compare(Author a1, Author a2) {
+						return a1.bookName.compareTo(a2.bookName);
+					}
+
+				});
+				
+				System.out.println("After Sorting");
+				authors.forEach(System.out::println);
+				
+			Output :
+
+				Before Sorting
+				
+				Author [firstName=Henry, lastName=Miller, bookName=Tropic of Cancer]
+				Author [firstName=Nalo, lastName=Hopkinson, bookName=Brown Girl in the Ring]
+				Author [firstName=Frank, lastName=Miller, bookName=300]
+				Author [firstName=Deborah, lastName=Hopkinson, bookName=Sky Boys]
+				Author [firstName=George R. R., lastName=Martin, bookName=Song of Ice and Fire]
+				
+				After Sorting
+				
+				Author [firstName=Frank, lastName=Miller, bookName=300]
+				Author [firstName=Nalo, lastName=Hopkinson, bookName=Brown Girl in the Ring]
+				Author [firstName=Deborah, lastName=Hopkinson, bookName=Sky Boys]
+				Author [firstName=George R. R., lastName=Martin, bookName=Song of Ice and Fire]
+				Author [firstName=Henry, lastName=Miller, bookName=Tropic of Cancer]
 	
 -	List of Strings
 	
@@ -262,8 +380,8 @@
 			[aaaa, bbbbbb, dddd, ffff, rrr]
 
 -	List of Custom Objects
-
-
+	
+	
 	1.	Implementing Comparator Interface using it on List.sort() method
 	
 		Code Snippets :
@@ -414,6 +532,7 @@
 	1. Using Collections.sort() method to Sort Set
 	
 		Convert Set to List and use Collections.sort() method
+		
 	
 		1.	Natural Order:
 		
@@ -454,7 +573,9 @@
 				Set Before sorting[hhhh, pppp, aaaa, dddd, bbbb, eeee]
 				Set After Sorting[pppp, hhhh, eeee, dddd, bbbb, aaaa]
 
-	2.	Using SortedSet to sort Set
+	2.	Using SortedSet to Sort Set
+	
+		String implements Comparable Interface and compareTo() method so SortedSet will sort in natural order using CompareTo() method
 		
 		1. Natural Order:
 
