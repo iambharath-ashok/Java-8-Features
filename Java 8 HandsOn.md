@@ -573,7 +573,7 @@
 				Set Before sorting[hhhh, pppp, aaaa, dddd, bbbb, eeee]
 				Set After Sorting[pppp, hhhh, eeee, dddd, bbbb, aaaa]
 
-	2.	Using SortedSet to Sort Set
+	2.	Using SortedSet to Sort Set of Strings
 	
 		String implements Comparable Interface and compareTo() method so SortedSet will sort in natural order using CompareTo() method
 		
@@ -614,12 +614,405 @@
 				Set Before sorting[hhhh, pppp, aaaa, dddd, bbbb, eeee]
 				Set After Sorting[pppp, hhhh, eeee, dddd, bbbb, aaaa]	
 		
--	Sorting Set of Custom Objects
+	
+	
+	3.	Sorting Set of Custom Objects
+		
+		1.	Collections.sort() 
+			
+			1.Comparable
+			
+				1.	Implement POJO with Comparable Interface
+				
+					public class Author implements Comparable<Author> {
+						
+						public String firstName;
+						public String lastName;
+						public String book;
+									
+							Getters and Setters	
+						
+						public int compareTo(Author author) {
+							return this.firstName.compareTo(author.firstName);
+						} 
+					}
+					
+				2.	Convert Set to List
+					
+					List<Author> authorList = new ArrayList<Author>(SetImpl);
+					Collections.sort(authorList);
+					
+					
+				3.	Convert List to Set if required	
+					
+					Set<Author> authorSet = new ArrayList<>(authorList);
+				
+			2.	Comparator
+			
+				1.	Convert Set to List 
+					
+						Set<Author> authorSet =  new HashSet<>(); 
+						authorSet.add(new Author("aa","dd","bbb"));
+						authorSet.add(new Author("aa","dd","bbb"));
+						
+					
+						List<Author> authorList = new ArrayList<>(authorSet);
+					
+				2.	Sort using Collections.sort(listIml, Comparator)
+					
+						Comparator c = new Comparator<Author>() {
+						
+							public int compare(Author a1, Author a2){
+								int lastName = a1.lastName.compareTo(a2.lastName);
+								return lastName == 0 ? a1.firstName.compareTo(a2.firstName) : lastName;
+							}
+						}	
+						Collections.sort(authorList, c );
+				
+				3.	Convert List to Set if required	
+					
+					Set<Author> authorSet = new ArrayList<>(authorList);
+					
+					
+		2.	SortedSet or TreeSet
+			
+			1.Comparable with TreeSet
+			
+				1.	Implement POJO with Comparable Interface
+						
+						class Author implements Comparable<Author> {
+							private String firstName;
+							private String lastName;
+							private String book;
+
+							public int compareTo(Author author) {
+								int last = this.lastName.compareTo(author.lastName);
+								return last == 0 ? this.firstName.compareTo(author.firstName) : last;
+							}
+
+							public Author(String firstName, String lastName, String book) {
+								super();
+								this.firstName = firstName;
+								this.lastName = lastName;
+								this.book = book;
+							}
+
+							@Override
+							public String toString() {
+								return "Author [firstName=" + firstName + ", lastName=" + lastName + ", book=" + book + "]";
+							}
+						}
+					
+				2.	Items added to TreeSet will be sorted based on the compareTo() method of Comparable Interface
+				
+						Code Snippets : 
+						
+							public class SortedSetCustomObjectsComparable {
+								public static void main(String[] args) {
+									List<Author> authorsList = getAuthors();
+									
+									System.out.println("Before Sorting.......");
+									authorsList.forEach(System.out::println);
+									
+									Set<Author> authorSet = new TreeSet<>(authorsList); // Adding unsorted List to TreeSet
+									System.out.println("After Sorting.......");
+									authorSet.forEach(System.out::println);
+								}
+
+								public static List<Author> getAuthors() {
+									List<Author> al = new ArrayList<Author>();
+									al.add(new Author("Henry", "Miller", "Tropic of Cancer"));
+									al.add(new Author("Nalo", "Hopkinson", "Brown Girl in the Ring"));
+									al.add(new Author("Frank", "Miller", "300"));
+									al.add(new Author("Deborah", "Hopkinson", "Sky Boys"));
+									al.add(new Author("George R. R.", "Martin", "Song of Ice and Fire"));
+									return al;
+								}
+							}
+							
+						Output :
+						
+							Before Sorting.......
+							Author [firstName=Henry, lastName=Miller, book=Tropic of Cancer]
+							Author [firstName=Nalo, lastName=Hopkinson, book=Brown Girl in the Ring]
+							Author [firstName=Frank, lastName=Miller, book=300]
+							Author [firstName=Deborah, lastName=Hopkinson, book=Sky Boys]
+							Author [firstName=George R. R., lastName=Martin, book=Song of Ice and Fire]
+							After Sorting.......
+							Author [firstName=Deborah, lastName=Hopkinson, book=Sky Boys]
+							Author [firstName=Nalo, lastName=Hopkinson, book=Brown Girl in the Ring]
+							Author [firstName=George R. R., lastName=Martin, book=Song of Ice and Fire]
+							Author [firstName=Frank, lastName=Miller, book=300]
+							Author [firstName=Henry, lastName=Miller, book=Tropic of Cancer]
+
+
+
+			2.	Comparator with TreeSet
+				
+				1.	Create TreeSet Instance by providing Comparator Impl
+				2.	Added elements will be sorted according to Comparator 
+				2.	Or add all the elements in to TreeSet ... it will sorted according to Comparator
+				
+				Code Snippets : 
+					
+					public class SortedSetCustomObjectsComparator {
+						public static void main(String[] args) {
+
+							Comparator<Author> authorComparator = new Comparator<Author>() {
+
+								public int compare(Author a1, Author a2) {
+									int lastName = a1.lastName.compareTo(a2.lastName);
+									return lastName == 0 ? a1.firstName.compareTo(a2.firstName) : lastName;
+								}
+							};
+
+							Set<Author> authorSet = new TreeSet<>(authorComparator);
+
+							authorSet.add(new Author("Henry", "Miller", "Tropic of Cancer"));
+							authorSet.add(new Author("Nalo", "Hopkinson", "Brown Girl in the Ring"));
+							authorSet.add(new Author("Frank", "Miller", "300"));
+							authorSet.add(new Author("Deborah", "Hopkinson", "Sky Boys"));
+							authorSet.add(new Author("George R. R.", "Martin", "Song of Ice and Fire"));
+							
+							authorSet.forEach(System.out::println);
+						}
+					}
+				
+				Output :
+					
+					Author [firstName=Deborah, lastName=Hopkinson, book=Sky Boys]
+					Author [firstName=Nalo, lastName=Hopkinson, book=Brown Girl in the Ring]
+					Author [firstName=George R. R., lastName=Martin, book=Song of Ice and Fire]
+					Author [firstName=Frank, lastName=Miller, book=300]
+					Author [firstName=Henry, lastName=Miller, book=Tropic of Cancer]
 
 	
--	Sorting Set of Custom and String in a particular order
--	Sorting Set using Comparator
--	Sorting Set in Java 8
+
+	4.	Sorting Set in Java 8
+	
+		1.	Comparator
+		
+			
+			1. Integer or Wrapper class implements Comparable Interface
+			
+			    Code  Snippets  :		
+				
+					Integer[] intArray = new Integer[] { 9, 88, 423, 3, 345, 5, 1, 789, 7, 8 };
+					Set<Integer> integerSet = new HashSet<>(Arrays.asList(intArray));
+					System.out.println("Before Sorting Set ...");
+					integerSet.forEach(System.out::println);
+					/*
+					 * Sorting Set in Java 8
+					 */
+					Set<Integer> sortedIntegerSet = integerSet.stream().sorted(Comparator.naturalOrder())
+							.collect(Collectors.toCollection(LinkedHashSet::new));
+							
+					Set<Integer> sortedIntegerSet = integerSet.stream().sorted(Comparator.reverseOrder())
+							.collect(Collectors.toCollection(LinkedHashSet::new));
+							
+					
+					/*
+					 * Sorting Set in Java 8 using Comparator comparing() methods
+					 */
+					
+					Set<Integer> sortedIntegerSet = integerSet.stream().sorted(Comparator.comparing(Integer::intValue))
+					.collect(Collectors.toCollection(LinkedHashSet::new));	
+
+					Set<Integer> sortedIntegerSet = integerSet.stream().sorted(Comparator.comparingInt(Integer::intValue))
+						.collect(Collectors.toCollection(LinkedHashSet::new));	
+					
+					Set<Integer> sortedIntegerSet = integerSet.stream().sorted(Comparator.comparingInt(Integer::intValue).reversed())
+						.collect(Collectors.toCollection(LinkedHashSet::new));						
+						
+					System.out.println("After Sorting Set ...");
+					sortedIntegerSet.forEach(System.out::println);
+					
+				Output :
+					
+					Natural Order :
+						Before Sorting Set ...[1, 3, 5, 789, 423, 7, 88, 8, 9, 345]
+						After Sorting Set ...[1, 3, 5, 7, 8, 9, 88, 345, 423, 789]
+						
+					Reverse Order :
+						Before Sorting Set ...[1, 3, 5, 789, 423, 7, 88, 8, 9, 345]
+						After Sorting Set ...[789, 423, 345, 88, 9, 8, 7, 5, 3, 1]
+
+			2.	Strings
+			
+					Code Snippet 1 :
+					
+						String[] stringArray = new String[] { "ffff", "rrr", "dddd", "aaaa", "bbbbbb" };
+	
+						Set<String> stringSet = new HashSet<>(Arrays.asList(stringArray));
+						List<String> sortedList = stringSet.stream().sorted((s1,s2)-> s2.compareTo(s1)).collect(Collectors.toList());
+						System.out.println(sortedList);
+					
+					
+					Output :
+						
+						Before Sorting : [rrr, aaaa, bbbbbb, dddd, ffff]
+						After Sorting : [rrr, ffff, dddd, bbbbbb, aaaa]
+						
+						
+					Code Snippet 2 : TreeSet allowing Null values
+					
+						Set<String> stringSet = new TreeSet<>(Comparator.nullsFirst(Comparator.reverseOrder()));
+						stringSet.add(null);
+						stringSet.add("node");
+						stringSet.add("Aws");
+						stringSet.add("Angular");
+						stringSet.add("mongo");
+						stringSet.add("camel");
+						stringSet.add(null);
+						
+						System.out.println(stringSet);
+								
+					Output :
+						
+						[null, node, mongo, camel, Aws, Angular]
+						
+						
+
+
+			3.	Custom Objects
+			
+				DataSource :
+				
+					public static Set<Person> getPersons() {
+						return new HashSet<>(Arrays.asList(
+							null, 
+							new Person("hhhh", 45, 7880.09),
+							new Person("qqq", 85, 0880.09),
+							new Person("oooo", 95, 6880.09),
+							new Person("zzzz", 15, 1880.09),
+							new Person("aaa", 25, 3880.09),
+							null,
+							new Person("zzzz", 35, 7880.09),
+							new Person("aaa", 15, 6880.09)));
+					}
+				Code Snippets :	
+					
+					Set<Person> sortedPersonsByName = personsSet.stream()
+						.sorted(Comparator.nullsFirst(Comparator.comparing(Person::getName)))
+						.collect(Collectors.toCollection(LinkedHashSet::new));
+					
+					Set<Person> sortedPersonsByName = personsSet.stream()
+						.sorted(Comparator.nullsFirst(Comparator.comparing(Person::getAge)))
+						.collect(Collectors.toCollection(LinkedHashSet::new));
+				
+					Set<Person> sortedPersonsByName = personsSet.stream()
+						.sorted(Comparator.nullsFirst(Comparator.comparing(Person::getSalary)))
+						.collect(Collectors.toCollection(LinkedHashSet::new));
+
+					/*
+					 * Reversed Order
+					*/
+					
+					Set<Person> sortedPersonsByName = personsSet.stream()
+						.sorted(Comparator.nullsFirst(Comparator.comparing(Person::getName)).reversed())
+						.collect(Collectors.toCollection(LinkedHashSet::new));	
+				Outputs:
+
+					Natural Order :
+						
+						null
+						Person [name=aaa, age=25, salary=3880.09]				
+						Person [name=aaa, age=15, salary=6880.09]
+						Person [name=hhhh, age=45, salary=7880.09]
+						Person [name=oooo, age=95, salary=6880.09]
+						Person [name=qqq, age=85, salary=880.09]
+						Person [name=zzzz, age=35, salary=7880.09]
+						Person [name=zzzz, age=15, salary=1880.09]
+
+					Reversed Order :
+				
+						Person [name=zzzz, age=35, salary=7880.09]
+						Person [name=zzzz, age=15, salary=1880.09]
+						Person [name=qqq, age=85, salary=880.09]
+						Person [name=oooo, age=95, salary=6880.09]
+						Person [name=hhhh, age=45, salary=7880.09]
+						Person [name=aaa, age=25, salary=3880.09]
+						Person [name=aaa, age=15, salary=6880.09]
+						null
+					
+					
+			
+		2.	SortedSet or TreeSet
+		
+		
+			-	Sorted will not allow two Duplicated Custom Object
+			-	null values are not allowed at all - duplicated null value will throw NullPointerException as TreeSet internally uses TreeMap
+			-	Duplicates Objects will be removed
+			-	Either Custom Object should implement Comparable interface or TreeSet Constructor should be passed with Comparator
+
+
+			Code Snippets :
+			
+				Snippet 1 : Passing List to Sorted Set
+					
+					public class SortedSetSortingCustomSetObjectsJava8 {
+
+						public static void main(String[] args) {
+							Set<Person> personsSet = getPersons();
+							personsSet.forEach(System.out::println);
+						}
+						
+						// Null is not allowed TreeSet while using with Custom Objects
+						//	Throws NullPointerException
+						public static Set<Person> getPersons() {
+							List<Person> personsList = Arrays.asList(null, new Person("hhhh", 45, 7880.09), new Person("qqq", 85, 0880.09),
+									new Person("oooo", 95, 6880.09), new Person("zzzz", 15, 1880.09), new Person("aaa", 25, 3880.09),
+									new Person("zzzz", 35, 7880.09), new Person("aaa", 15, 6880.09));
+							
+							Set<Person> personsSet = new TreeSet<>(Comparator.comparing(Person::getName));
+							
+							personsSet.addAll(personsList);
+							
+							return personsSet;
+						}
+					}
+					
+				Output :
+				
+					// After removing null values :
+					//	Duplicate values are removed 
+					
+					Person [name=aaa, age=25, salary=3880.09]
+					Person [name=hhhh, age=45, salary=7880.09]
+					Person [name=oooo, age=95, salary=6880.09]
+					Person [name=qqq, age=85, salary=880.09]
+					Person [name=zzzz, age=15, salary=1880.09]	
+					
+				Snippet 2 : Adding elements to TreeSet by Passing Comparator to TreeSet Comparator
+				
+					Set<Person> personSet = new TreeSet<>(Comparator.comparingInt(Person::getAge));
+					//personSet.add(null);
+					personSet.add(new Person("hhhh", 45, 7880.09));
+					personSet.add(new Person("qqq", 85, 0880.09));
+					personSet.add(new Person("oooo", 95, 6880.09));
+					personSet.add(new Person("zzzz", 35, 7880.09));
+					personSet.add(new Person("aaa", 15, 6880.09));
+					personSet.add(new Person("zzzz", 15, 1880.09));
+					personSet.add(new Person("aaa", 25, 3880.09));
+					//personSet.add(null);
+					
+					personSet.forEach(System.out::println);
+							
+		
+				Output :
+					
+					Person [name=aaa, age=15, salary=6880.09]
+					Person [name=aaa, age=25, salary=3880.09]
+					Person [name=zzzz, age=35, salary=7880.09]
+					Person [name=hhhh, age=45, salary=7880.09]
+					Person [name=qqq, age=85, salary=880.09]
+					Person [name=oooo, age=95, salary=6880.09]
+
+----------------------------------------------------------------------------------------
+## Sorting Map Data Structure
+
+						
+				
 
 ----------------------------------------------------------------------------------------
 			
