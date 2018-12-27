@@ -1012,8 +1012,617 @@
 ## Sorting Map Data Structure
 
 						
+1. 	Sorting Map by Keys and Values with List and Collections.sort() before Java 8
+
+	Code Snippet 1 :
+	
+		public class SortingHashMapCollections {
+
+			public static void main(String[] args) {
+
+				Map<String, Integer> map = new HashMap<>();
+
+				map.put("cloths", 200);
+				map.put("transportation", 300);
+				map.put("grocery", 500);
+				map.put("rent", 700);
+				map.put("cell", 300);
+				map.put("broadband", 600);
+				map.put("electricity", 300);
+
+				/*
+				 * 
+				 * Sorting by Keys in Of Type Comparable before Java 8
+				 * Also using Comparator to sort in Reverse order
+				*/
+				//Comparator to Sort in Reverse Order
+				Comparator<String> c = new Comparator<String>() {
+					public int compare(String s1, String s2) {
+						return s2.compareTo(s1);
+					}
+				};
+				List<String> billsList = new ArrayList<>(map.keySet());
+				Collections.sort(billsList);
+				Collections.sort(billsList, c);
+				billsList.sort(c);// Only one method of sort in the List Interface
+				
+				
+				/*
+				 * 
+				 * Sorting by Values in Of Type Comparable before Java 8
+				 * Also using Comparator to sort in Reverse order
+				*/
+				//Comparator to Sort in Reverse Order
+						Comparator<Integer> ic = new Comparator<Integer>() {
+							public int compare(Integer i1, Integer i2) {
+								return i2.compareTo(i1);
+							}
+						};
+				List<Integer> amountList = new ArrayList<>(map.values());
+				Collections.sort(amountList);
+				Collections.sort(amountList,ic);
+				amountList.sort(ic);// Only one method of sort in the List Interface
 				
 
+			}
+		}
+		
+		Output :
+			[broadband, cell, cloths, electricity, grocery, rent, transportation]
+			[transportation, rent, grocery, electricity, cloths, cell, broadband]
+			[200, 300, 300, 300, 500, 600, 700]
+			[700, 600, 500, 300, 300, 300, 200]
+
+	Code Snippet 2 : 
+		
+		public class SortingHashMapEntyUsingList {
+			public static void main(String[] args) {
+
+				Map<String, Integer> map = new HashMap<>();
+
+				map.put("cloths", 200);
+				map.put("transportation", 300);
+				map.put("grocery", 500);
+				map.put("rent", 700);
+				map.put("cell", 300);
+				map.put("broadband", 600);
+				map.put("electricity", 300);
+
+				List<Map.Entry<String, Integer>> entrySetList = new ArrayList<Map.Entry<String, Integer>>(map.entrySet());
+				
+				Comparator<Map.Entry<String,Integer>> cK = new Comparator<Map.Entry<String,Integer>>() {
+					public int compare(Map.Entry<String, Integer> m1, Map.Entry<String, Integer> m2) {
+						return m2.getKey().compareTo(m1.getKey());
+					}
+				};
+				
+				Comparator<Map.Entry<String,Integer>> cV = new Comparator<Map.Entry<String,Integer>>() {
+					public int compare(Map.Entry<String, Integer> m1, Map.Entry<String, Integer> m2) {
+						return m2.getValue().compareTo(m1.getValue());
+					}
+				};
+				
+				//Collections.sort(entrySetList);// Gives Compilation Error that entryList is un-sortable ... we need provide Comparator impl
+				Collections.sort(entrySetList, cK);
+				entrySetList.sort(cK);// Should Provide Comparator
+				
+				Collections.sort(entrySetList, cV);
+				entrySetList.sort(cV);// Should Provide Comparator
+				
+			}
+		}
+
+	
+	Output :
+		Sorting By Keys. Natural Order: [broadband=600, cell=300, cloths=200, electricity=300, grocery=500, rent=700, transportation=300]
+		Sorting By Values. Natural Order: [cloths=200, cell=300, electricity=300, transportation=300, grocery=500, broadband=600, rent=700]
+		Sorting By Keys. Reverse Order: [transportation=300, rent=700, grocery=500, electricity=300, cloths=200, cell=300, broadband=600]
+		Sorting By Values. Reverse Order: [rent=700, broadband=600, grocery=500, transportation=300, electricity=300, cell=300, cloths=200]
+
+2.	Sorting Map by TreeSet
+
+
+		Code Snippet :
+		
+			public class SortingHashMapWithTreeSet {
+
+				public static void main(String[] args) {
+					Map<String, Integer> map = new HashMap<>();
+
+					map.put("cloths", 200);
+					map.put("transportation", 300);
+					map.put("grocery", 500);
+					map.put("rent", 700);
+					map.put("cell", 300);
+					map.put("broadband", 600);
+					map.put("electricity", 300);
+					map.put("electricity", 900);
+					
+					Set<String> set1 = new TreeSet<String>(map.keySet());
+					Set<Integer> set2 = new TreeSet<Integer>(map.values());
+					
+					//Comparator to Sort in Reverse Order
+					Comparator<String> comparator = new Comparator<String>() {
+						public int compare(String s1, String s2) {
+							return s2.compareTo(s1);
+						}
+					};
+					
+					// Using Comparator While Instanstiating TreeSet and Adding KeySet() ... like wise we can do for Values
+					Set<String> set3 = new TreeSet<String>(comparator);
+					set3.addAll(map.keySet());
+					
+					
+					System.out.println("Sorting Keys in Natural Order :"+set1);
+					System.out.println("Sorting Values in Natural Order :"+set2);
+					System.out.println("Sorting Keys in Reverse Order :"+set3);
+				}
+			}
+
+			
+		Output :
+		
+			Sorting Keys in Natural Order :[broadband, cell, cloths, electricity, grocery, rent, transportation]
+			Sorting Values in Natural Order :[200, 300, 500, 600, 700, 900]
+			Sorting Keys in Reverse Order :[transportation, rent, grocery, electricity, cloths, cell, broadband]
+
+
+
+
+
+3.  Sorting Map in Java 8
+	
+	
+	Code Snippet :
+	
+		public class SortingHashMapInJava8 {
+
+			public static void main(String[] args) {
+				Map<String, Integer> map = new HashMap<>();
+
+				map.put("cloths", 200);
+				map.put("transportation", 300);
+				map.put("grocery", 500);
+				map.put("rent", 700);
+				map.put("cell", 300);
+				map.put("broadband", 600);
+				map.put("electricity", 300);
+				map.put("electricity", 300); //Duplicate
+				//map.put(null, 800); // throws Null pointer Exception
+	
+				// Sorting By Keys
+				LinkedHashMap<String, Integer> sortedMapByKeys = map.entrySet().stream()
+						.sorted(Map.Entry.comparingByKey())
+						.collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (o, n) -> o, LinkedHashMap::new));
+				
+				// Sorting By Values
+				LinkedHashMap<String, Integer> sortedMapByValues = map.entrySet().stream()
+						.sorted(Map.Entry.comparingByValue())
+						.collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (o, n) -> o, LinkedHashMap::new));
+
+				System.out.println("Keys: " + sortedMapByKeys);
+				System.out.println("Values: " + sortedMapByValues);
+				
+				
+				//Reversed Order
+				LinkedHashMap<String, Integer> sortedMapByValuesReversed = map.entrySet().stream()
+						.sorted(Map.Entry.<String, Integer>comparingByValue().reversed())
+						.collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (o, n) -> o, LinkedHashMap::new));
+				System.out.println("Values Reversed: "+sortedMapByValuesReversed);
+				
+				//Using CustomComparator in comparingByKey
+				LinkedHashMap<String, Integer> sortedMapByKeysUsingComparator = map.entrySet().stream()
+						.sorted(Map.Entry.<String, Integer>comparingByKey((m1, m2)-> m2.compareTo(m1)))
+						.collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (o, n) -> o, LinkedHashMap::new));
+				System.out.println("Comparator Revesed With Keys: "+sortedMapByKeysUsingComparator);
+				
+				
+				//Using CustomComparator with sorted
+				LinkedHashMap<String, Integer> sortedMapByValuesUsingComparator = map.entrySet().stream()
+						.sorted((m1, m2)-> m2.getValue().compareTo(m1.getValue()))
+						.collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (o, n) -> o, LinkedHashMap::new));
+				System.out.println("Comparator Revesed With Values: "+sortedMapByValuesUsingComparator);
+			}
+		}
+	Output :
+		
+		Keys: {broadband=600, cell=300, cloths=200, electricity=300, grocery=500, rent=700, transportation=300}
+		Values: {cloths=200, electricity=300, cell=300, transportation=300, grocery=500, broadband=600, rent=700}
+		Values Reversed: {rent=700, broadband=600, grocery=500, electricity=300, cell=300, transportation=300, cloths=200}
+		Comparator Revesed With Keys: {transportation=300, rent=700, grocery=500, electricity=300, cloths=200, cell=300, broadband=600}
+		Comparator Revesed With Values: {rent=700, broadband=600, grocery=500, electricity=300, cell=300, transportation=300, cloths=200}
+
+
+
+4.	Sorting Map with Custom Objects
+	
+	1.	Custom Objects as Values with Comparable and Comparator by Using Collections.sort() and List.sort()
+		
+		Code Snippet : 
+		
+			public class SortingHashMapWithCustomObjects {
+
+				public static void main(String[] args) {
+
+					Map<String, Worker> workerMap = new HashMap<>();
+					workerMap.put("david", new Worker(3, "david", 5000d));
+					workerMap.put("joy", new Worker(5, "joy", 1000d));
+					workerMap.put("abel", new Worker(1, "abel", 3000d));
+					workerMap.put("ruby", new Worker(4, "ruby", 7000d));
+					System.out.println("Before Sorting: "+workerMap.values());
+					
+					//Converting Map Values to List to use with Collections.sort()
+					List<Worker> workerList = new ArrayList<>(workerMap.values());
+					Collections.sort(workerList);
+					System.out.println("After Sorting: "+workerList);
+					
+					Collections.sort(workerList, comparatorById);
+					workerList.sort(comparatorById); // List.sort(Comparator) //only one Method 
+					System.out.println("Sorting By Id: "+workerList);
+					
+					//Sorting with TreeSet by using Comparable
+					Set<Worker> workerSortedSet = new TreeSet<>(workerMap.values());
+					System.out.println("Sorting With TreeSet: "+workerSortedSet);
+				}
+
+			}
+
+			class Worker implements Comparable<Worker> {
+
+				private Integer id;
+				private String name;
+				private Double salary;
+
+				
+
+				@Override
+				public String toString() {
+					return "Employee [id=" + id + ", name=" + name + ", salary=" + salary + "]";
+				}
+
+				public Worker(int id, String name, Double salary) {
+					super();
+					this.id = id;
+					this.name = name;
+					this.salary = salary;
+				}
+				
+				//Providing Custom Implementation to Remove Duplicates of Custom Objects
+				@Override
+				public boolean equals(Object o) {
+					Worker worker = (Worker) o;
+					return this.id == worker.id && this.name.equals(worker.name) && this.salary.equals(worker.salary) ? true
+							: false;
+				}
+				
+				@Override
+				public int hashCode() {
+					return (int) (this.id + this.name.length()+  this.salary);
+				}
+
+				@Override
+				public int compareTo(Worker w) {
+					 return (int) (w.getSalary() - this.getSalary());
+					// return (int) (w.getId() - this.getId());
+					//return this.getName().compareTo(w.getName());
+					
+			//		if(w.getSalary() > this.getSalary()) {
+			//			return -1;
+			//		}else if(w.getSalary() < this.getSalary()){
+			//			return 1;
+			//		} else {
+			//			return 0;
+			//		}
+				}
+			}
+	
+				
+		Output :
+			
+			Salary :
+				Before Sorting: [Employee [id=5, name=joy, salary=1000.0], Employee [id=1, name=abel, salary=3000.0], Employee [id=3, name=david, salary=5000.0], Employee [id=4, name=ruby, salary=7000.0]]
+				After Sorting: [Employee [id=4, name=ruby, salary=7000.0], Employee [id=3, name=david, salary=5000.0], Employee [id=1, name=abel, salary=3000.0], Employee [id=5, name=joy, salary=1000.0]]
+				
+			Id :
+				Sorting By Id: [Employee [id=5, name=joy, salary=1000.0], Employee [id=4, name=ruby, salary=7000.0], Employee [id=3, name=david, salary=5000.0], Employee [id=1, name=abel, salary=3000.0]]
+		
+	2.	Custom Objects as Keys with Comparable and Comparator by Using Collections.sort() and List.sort()
+	
+		Code Snippet :
+		
+			public class SortingHashMapWithCustomObjectsKeys {
+
+				public static void main(String[] args) {
+					Map<Worker, Double> workerMap = new HashMap<>();
+
+					workerMap.put(new Worker(3, "david", 5000d), 5000d);
+					workerMap.put(new Worker(5, "joy", 1000d), 1000d);
+					workerMap.put(new Worker(1, "abel", 3000d), 3000d);
+					workerMap.put(new Worker(4, "ruby", 7000d), 7000d);
+					workerMap.put(new Worker(4, "ruby", 7000d), 7000d);//Duplicate Key-Value
+					
+					List<Worker> list = new ArrayList<>(workerMap.keySet());
+					Collections.sort(list);
+					
+					System.out.println(list);
+
+				}
+
+			}
+	3.	Sorting Map with Custom Objects with Java 8
+
+		Code Snippet :
+		
+			public class SortingHashMapWithCustomObjectsKeys {
+
+				public static void main(String[] args) {
+					Map<Worker, Double> workerMap = new HashMap<>();
+
+					workerMap.put(new Worker(3, "david", 5000d), 5000d);
+					workerMap.put(new Worker(5, "joy", 1000d), 1000d);
+					workerMap.put(new Worker(1, "abel", 3000d), 3000d);
+					workerMap.put(new Worker(4, "ruby", 7000d), 7000d);
+					workerMap.put(new Worker(4, "ruby", 7000d), 7000d);//Duplicate
+					workerMap.put(new Worker(5, null, 89d), null);// Throws NullPointerException
+					
+					
+					// Sorting With Collections Sort
+					List<Worker> list = new ArrayList<>(workerMap.keySet());
+					Collections.sort(list);
+					System.out.println(list);
+
+					//Sorting By Key Reversed
+					LinkedHashMap<Worker, Double> collect = workerMap.entrySet().stream()
+							.sorted(Map.Entry.<Worker, Double>comparingByKey().reversed())
+							.collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (o, n) -> n, LinkedHashMap::new));
+					System.err.println(collect);
+					
+					//Sorting By comparingByKey 
+					LinkedHashMap<Worker, Double> collect1 = workerMap.entrySet().stream().sorted(Map.Entry.comparingByKey())
+							.collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (o, n) -> n, LinkedHashMap::new));
+					
+					//Sorting By comparingByValue 
+					LinkedHashMap<Worker, Double> collect3 = workerMap.entrySet().stream().sorted(Map.Entry.comparingByValue())
+							.collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (o, n) -> n, LinkedHashMap::new));
+					System.err.println(collect3);
+
+					//Sorting By comparingByValue Reversed
+					LinkedHashMap<Worker, Double> collect4 = workerMap.entrySet().stream()
+							.sorted(Map.Entry.<Worker, Double>comparingByValue().reversed())
+							.collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (o, n) -> n, LinkedHashMap::new));
+					System.out.println(collect4);
+					
+					//Sorting By Comparator
+					LinkedHashMap<Worker, Double> collect5 = workerMap.entrySet().stream()
+							.sorted((map1, map2) -> map1.getKey().getName().compareTo(map2.getKey().getName()))
+							.collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (o, n) -> n, LinkedHashMap::new));
+					System.out.println(collect5);
+				}
+			}
+			
+		Output :
+
+			[Employee [id=4, name=ruby, salary=7000.0], Employee [id=3, name=david, salary=5000.0], Employee [id=1, name=abel, salary=3000.0], Employee [id=5, name=joy, salary=1000.0]]
+			{Employee [id=5, name=joy, salary=1000.0]=1000.0, Employee [id=1, name=abel, salary=3000.0]=3000.0, Employee [id=3, name=david, salary=5000.0]=5000.0, Employee [id=4, name=ruby, salary=7000.0]=7000.0}
+			{Employee [id=5, name=joy, salary=1000.0]=1000.0, Employee [id=1, name=abel, salary=3000.0]=3000.0, Employee [id=3, name=david, salary=5000.0]=5000.0, Employee [id=4, name=ruby, salary=7000.0]=7000.0}
+			{Employee [id=4, name=ruby, salary=7000.0]=7000.0, Employee [id=3, name=david, salary=5000.0]=5000.0, Employee [id=1, name=abel, salary=3000.0]=3000.0, Employee [id=5, name=joy, salary=1000.0]=1000.0}
+			{Employee [id=1, name=abel, salary=3000.0]=3000.0, Employee [id=3, name=david, salary=5000.0]=5000.0, Employee [id=5, name=joy, salary=1000.0]=1000.0, Employee [id=4, name=ruby, salary=7000.0]=7000.0}
+
+				
+7.	Sorting Map with TreeMap
+
+	1.	String and Wrappers
+	
+		Code Snippet : 
+	
+			public class SortingHashMapWithTreeMap {
+
+				public static void main(String[] args) {
+
+					Map<String, Integer> hashMap = new HashMap<>();
+					hashMap.put("Java Developer", 3000);
+					hashMap.put("Java Developer", 9000);
+					hashMap.put("Java Developer", 33000);
+					hashMap.put("Full Stack Developer", 15000);
+					hashMap.put("Full Stack Developer", 55000);
+					hashMap.put("Solutions Architect", 25000);
+					hashMap.put("Data Scientist", 20000);
+					hashMap.put("Data Scientist", 23000);// Duplicated Key
+
+					
+					// Sorting Key with TreeMap
+					/*
+						1.  String is of Type Comparable
+						2.  Once adding the map with string as key it will sort in natural order
+						3.  To change the order of sorting we needs to provide the Comparator for Key
+						4.	  
+					*/		
+					System.out.println("Original Map with Duplicates ... Before Sorting: "+hashMap);
+					Map<String, Integer> sortedMap = new TreeMap<>(hashMap);
+					System.out.println("Sorting by Keys With TreeMap: "+sortedMap);
+					
+					
+					// Sorting TreeMap Keys with Comparator 
+					//Value sorting is not possible 
+					Map<String, Integer> sortedMapComparator = new TreeMap<>((s1,s2)-> s2.compareTo(s1));
+					sortedMapComparator.putAll(hashMap);
+					System.out.println("Sorting by Keys in Reversed Order With TreeMap using Comparator: "+sortedMapComparator);
+					
+					
+					// Value sorting is not possible with TreeMap
+					/*
+					 * 1. We sort the TreeMap or any with values using below Java 8 or 
+					 * 2. By converting TreeMap or HashMap  into List<Map.Entry<K,V>> and then use 
+					 * 	Collections.sort(list,Comparator) or List(Comparator) 
+					 * 3. Provide Custom Comparator<Map.Entry<K,V>>		
+					*/		
+					LinkedHashMap<String, Integer> collect = hashMap.entrySet().stream().sorted(Map.Entry.<String, Integer>comparingByValue().reversed())
+					.collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue,(o,n)->n,LinkedHashMap::new));
+					System.out.println("Sorting By Value Reversed: "+collect);
+					LinkedHashMap<String, Integer> collect2 = hashMap.entrySet().stream().sorted(Map.Entry.<String, Integer>comparingByValue())
+							.collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue,(o,n)->n,LinkedHashMap::new));
+					System.out.println("Sorting By Value Natural Order: "+collect2);
+
+				}
+			}
+			
+		Output :
+			
+			Original Map with Duplicates ... Before Sorting: {Java Developer=33000, Full Stack Developer=55000, Solutions Architect=25000, Data Scientist=23000}
+			Sorting by Keys With TreeMap: {Data Scientist=23000, Full Stack Developer=55000, Java Developer=33000, Solutions Architect=25000}
+			Sorting by Keys in Reversed Order With TreeMap using Comparator: {Solutions Architect=25000, Java Developer=33000, Full Stack Developer=55000, Data Scientist=23000}
+			Sorting By Value Reversed: {Full Stack Developer=55000, Java Developer=33000, Solutions Architect=25000, Data Scientist=23000}
+			Sorting By Value Natural Order: {Data Scientist=23000, Solutions Architect=25000, Java Developer=33000, Full Stack Developer=55000}
+
+
+	2.	TreeMap Custom Object With Comparable
+	
+		Code Snippet :
+
+			public class SortingTreeMapWithCustomObjects {
+
+				public static void main(String[] args) {
+					
+					/*
+						Sorting Custom Object TreeMap with Comparable
+					*/
+					Map<Car, Integer> carMap = new TreeMap<>();
+
+					carMap.put(new Car(5000d, "BMW", 2018), 2);
+					carMap.put(new Car(7000d, "AUDI", 2019), 5);
+					carMap.put(new Car(4000d, "FORD", 2017), 3);
+					carMap.put(new Car(6000d, "BENZ", 2020), 1);
+					carMap.put(new Car(1000d, "ROYCE", 2018), 4);
+					carMap.put(new Car(4000d, "FORD", 2017), 3);
+					carMap.put(new Car(7000d, "AUDI1", 2019), 5);
+					
+					System.out.println(carMap);
+				}
+			}
+
+			class Car implements Comparable<Car> {
+
+				private double price;
+				private String brand;
+				private int model;
+
+				@Override
+				public String toString() {
+					return "Car [price=" + price + ", brand=" + brand + ", model=" + model + "]";
+				}
+
+				public Car(double price, String brand, int model) {
+					super();
+					this.price = price;
+					this.brand = brand;
+					this.model = model;
+				}
+
+				// Getter and Setters
+				
+				
+				@Override
+				public int compareTo(Car car) {
+					return this.brand.compareTo(car.brand);
+				}
+			}
+		Output : 
+			
+			{Car [price=7000.0, brand=AUDI, model=2019]=5, Car [price=7000.0, brand=AUDI1, model=2019]=5, Car [price=6000.0, brand=BENZ, model=2020]=1, Car [price=5000.0, brand=BMW, model=2018]=2, Car [price=4000.0, brand=FORD, model=2017]=3, Car [price=1000.0, brand=ROYCE, model=2018]=4}
+
+	3.	TreeMap Custom Object With Comparator
+
+
+		Code Snippet :
+		
+			public class SortingTreeMapWithCustomObjectsComparator {
+
+				public static void main(String[] args) {
+
+					Map<Author, Integer> authorMap = new HashMap<>();
+					authorMap.put(new Author("aaa ", "book3", 3), 9999);
+					authorMap.put(new Author("ccc ", "book1", 1), 1111);
+					authorMap.put(new Author("ccc ", "book1", 1), 1111);
+					authorMap.put(new Author("bbb ", "book2", 4), 6666);
+					authorMap.put(new Author("aaa ", "book3", 2), 7777);
+					authorMap.put(new Author("ddd ", "book4", 5), 2222);
+					authorMap.put(new Author("ddd ", "book4", 5), 2222);
+					authorMap.put(new Author("bbb ", "book5", 6), 8888);
+
+					System.out.println("Orginal HashMap: ");
+					authorMap.forEach((k, v) -> System.out.println((k + ":" + v)));
+
+					Map<Author, Integer> authorByIdTreeMap = new TreeMap<Author, Integer>((a1, a2) -> a1.getId() - a2.getId());
+					authorByIdTreeMap.putAll(authorMap);
+					System.out.println("Sorting By Id: ");
+					authorByIdTreeMap.forEach((k, v) -> System.out.println((k + ":" + v)));
+					
+					Map<Author, Integer> authorByBookTreeMap = new TreeMap<Author, Integer>((a1, a2) -> a1.getBook().compareTo( a2.getBook()));
+					authorByBookTreeMap.putAll(authorMap);
+					System.out.println("Sorting By BookName: ");
+					authorByBookTreeMap.forEach((k, v) -> System.out.println((k + ":" + v)));
+					
+					Map<Author, Integer> authorByNameTreeMap = new TreeMap<Author, Integer>((a1, a2) -> a2.getName().compareTo( a1.getName()));
+					authorByNameTreeMap.putAll(authorMap);
+					System.out.println("Sorting By Author Name: ");
+					authorByNameTreeMap.forEach((k, v) -> System.out.println((k + ":" + v)));
+
+				}
+
+			}
+
+			class Author {
+
+				private String name;
+				private String book;
+				private int id;
+
+				@Override
+				public String toString() {
+					return "Author [name=" + name + ", book=" + book + ", id=" + id + "]";
+				}
+
+				public Author(String name, String book, int id) {
+					super();
+					this.name = name;
+					this.book = book;
+					this.id = id;
+				}
+
+				// Getter and Setters
+			}
+			
+		Output :
+			
+			Orginal HashMap: 
+			Author [name=aaa , book=book3, id=3]:9999
+			Author [name=ccc , book=book1, id=1]:1111
+			Author [name=ddd , book=book4, id=5]:2222
+			Author [name=bbb , book=book5, id=6]:8888
+			Author [name=aaa , book=book3, id=2]:7777
+			Author [name=bbb , book=book2, id=4]:6666
+			Author [name=ddd , book=book4, id=5]:2222
+			Author [name=ccc , book=book1, id=1]:1111
+			Sorting By Id: 
+			Author [name=ccc , book=book1, id=1]:1111
+			Author [name=aaa , book=book3, id=2]:7777
+			Author [name=aaa , book=book3, id=3]:9999
+			Author [name=bbb , book=book2, id=4]:6666
+			Author [name=ddd , book=book4, id=5]:2222
+			Author [name=bbb , book=book5, id=6]:8888
+			Sorting By BookName: 
+			Author [name=ccc , book=book1, id=1]:1111
+			Author [name=bbb , book=book2, id=4]:6666
+			Author [name=aaa , book=book3, id=3]:7777
+			Author [name=ddd , book=book4, id=5]:2222
+			Author [name=bbb , book=book5, id=6]:8888
+			Sorting By Author Name: 
+			Author [name=ddd , book=book4, id=5]:2222
+			Author [name=ccc , book=book1, id=1]:1111
+			Author [name=bbb , book=book5, id=6]:6666
+			Author [name=aaa , book=book3, id=3]:7777
+
+			
 ----------------------------------------------------------------------------------------
 			
 ## 2.	forEach() method of Iterable Interface
