@@ -1,5 +1,4 @@
 
-
 # Java 8 Examples of Lambda Expressions
 
 ## Stream API
@@ -1645,7 +1644,25 @@
 					
 					void accept(T t, U u);
 				}
-						
+				
+				
+	Coding Snippet :
+
+		Map<String, Integer> map = new HashMap<>();
+
+		map.put("Apple", 100);
+		map.put("Orange", 50);
+		map.put("Pineapple", 60);
+		map.put("Grapes", 30);
+		map.forEach((k,v)-> System.out.println("[ Key: "+ k+ " | "+ "Value: "+v +" ]"));
+		
+	Output :
+
+		[ Key: Apple | Value: 100 ]
+		[ Key: Grapes | Value: 30 ]
+		[ Key: Pineapple | Value: 60 ]
+		[ Key: Orange | Value: 50 ]
+
 			
 	2. List Interface
 	
@@ -1656,15 +1673,51 @@
 				public interface Consumer<T> {
 					void accept(T t);
 				}
+				
+		Code Snippet :
+
+			List<String> stringList = Arrays.asList(new String[] {"a","b","b","a", null, null});
+			stringList.forEach(System.out::println);
 			
+			persons.forEach(p -> p.setLastName("Doe"));
 	
+		Output :
+		
+			a
+			b
+			b
+			a
+			null
+			null
+
+	3.	Set Interface
+	
+		- 	Similar to List Interface
+		
+		
+		Code Snippet :
+		
+			Set<String> stringSet =  new HashSet<>();
+			List<String> stringList = Arrays.asList(new String[] {"a","b","b","a", null, null});
+			stringSet.addAll(stringList);// HashSet Removes Duplicates but allows null only once
+			stringSet.forEach(System.out::println);
+
+		Output :
+
+			null
+			a
+			b
+
+----------------------------------------------------------------------------------------	
 ## 3.	filter() method of Stream Interface
 
 	-	Stream API is added from Java 8 
 	- 	filter() method is used to filter some the stream elements 
-	-	filter() method take Predicate<T> as the input argument
+	-	filter() method takes Predicate<T> as the input argument
 	-	filter() method is intermediate method that will gets executed only when terminal method gets invoked
-	-	filter will used commonly used along with collect() or findAny(), findAll(), anyMatch(), allMatch()
+	-	filter will used commonly used along with terminal methods like collect() or findAny(), findFirst(),  boolean anyMatch(predicate), boolean allMatch(Predicate p)
+	
+	- orElse(), orElseGet(), get(), orElseThrow(), ofNullable(T), of(T)
 		
 		
 		Predicate<T>
@@ -1680,14 +1733,14 @@
 						public boolean test(T t);
 					}
 					
-	-	Map -> filter()
+	1.	Map -> filter()
 		
 		-	map.entrySet().stream().filter()
 		-	filter() on Map Impl will Key-Value pair Entry as an argument
 			
 			Ex: 
 				
-				1.
+				1.Streams Filter and collect
 					
 					a).	Return String :	
 							map.entrySet().stream().filter(m -> m.getValue().equals("string")).map(m -> m.getValue()).collect(Collectors.joining(",")); //returns String
@@ -1705,12 +1758,12 @@
 							
 				2. Using Predicate
 					
-					a).							
-						Predicate<String> p = s -> s.equals("");
+					a).	filter collect and toMap						
+						Predicate<String> p = s -> s.equals("string");
 						map.entrySet().stream().filter(m -> p.test(m.getValue()))
 						.collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
 		
-					b).	
+					b).	Generics
 						private static Map<Integer, String> someMap;
 						
 						public static <K, V> Map<K, V> filterByValue(Map<K, V> map, Predicate<V> p) {
@@ -1720,18 +1773,100 @@
 						
 						Map<Integer, String> map1 = filterByValue(someMap, s -> s.contains("someString"));
 						Map<Integer, String> map2 = filterByValue(someMap, s -> s.length()>3);
+						
+	2.	List -> filter() 
+	
+			Code Snippet :
+
+				List<Person> persons = new ArrayList<>();
+				persons.add(new Person("aaa", 1, 200.00));
+				persons.add(new Person("ttt", 2, 500.00));
+				persons.add(new Person("vvv", 3, 700.00));
+				persons.add(new Person("bbb", 4, 900.00));
+				persons.add(new Person("aaa", 5, 400.00));
+				persons.add(new Person("qqq", 6, 300.00));
+				persons.add(new Person("aaa", 7, 600.00));
+				persons.add(new Person("bbb", 8, 870.00));
+				persons.add(new Person("yyy", 9, 780.00));
+
+				 Person orElse = persons.stream().filter(p -> p.salary > 600).filter(p -> p.name.equals("aaa"))
+						.findFirst().orElse(new Person("Bharath",8,800));
+				 
+				 Person person = persons.stream().filter(p -> p.salary > 100).filter(p -> !p.name.equals("zzz"))
+					.findAny().get();
+				 
+				 Person personNull = persons.stream().filter(p -> p.salary < 400).filter(p -> p.name.equals("zzz"))
+						 .findAny().orElse(null);
+						 
+				List<Person> persons = …
+				Stream<Person> personsOver18 = persons.stream().filter(p -> p.getAge() > 18);		 
+				 
+				System.out.println(orElse);
+				System.out.println(person);
+				System.out.println(personNull);
 		
+			Output :
+			
+				Person [name=Bharath, id=8, salary=800.0]
+				Person [name=aaa, id=1, salary=200.0]
+				null
+				
+	3.	filter() and map()			
+	
+		Code Snippet :
+		
+			List<Double> collect = persons.stream().filter(p -> p.id > 3 && p.id <10).map(p -> p.salary).collect(Collectors.toList());
+			System.out.println(collect);
+			
+			Stream<Student> students = persons.stream()
+				.filter(p -> p.getAge() > 18)
+				.map(person -> new Student(person));
+			
+			Stream<Student> students = persons.stream()
+				.filter(p -> p.getAge() > 18)
+				.map(Student::new);	
+				
+			List<Student> students = persons.stream()
+				.filter(p -> p.getAge() > 18)
+				.map(Student::new)
+				.collect(Collectors.toList());
+				
+			List<Student> students = persons.stream()
+				.filter(p -> p.getAge() > 18)
+				.map(Student::new)
+				.collect(Collectors.toCollection(ArrayList::new));	
+		
+			
+			List<Student> students = persons.stream()
+				.parallel()
+				.filter(p -> p.getAge() > 18)  // filtering will be performed concurrently
+				.sequential()
+				.map(Student::new)
+				.collect(Collectors.toCollection(ArrayList::new));
+				
+			boolean anyMatch = persons.parallelStream().sequential().anyMatch(p -> p.salary==4900.00);	
+			
+			List<Student> students = persons.stream()
+				.parallel()
+				.filter(p -> p.getAge() > 18)  // filtering will be performed concurrently
+				.sequential()
+				.map(Student::new)
+				.collect(Collectors.toCollection(ArrayList::new));
+				
+		Output :
+
+			[900.0, 400.0, 300.0, 600.0, 870.0, 780.0]
 ----------------------------------------------------------------------------------------
 
 ## 4.	collect() 
 
 	-	collect() method is a terminal method ---> means it closed the stream and returns the values other than Stream 
-	- 	Values can List, Set or Map
+	- 	Values can be List, Set or Map
 	-	collect() method takes Collectors as an argument that returns set, map, count, sum of elements
 	
 ----------------------------------------------------------------------------------------
 	
-## 5.	findAny() and orElse
+## 5.	findAny() and orElse, get(), orElseGet, orElseThrow()
 
 	-	findAny() method can be used once we filtered some of the values 
 	-	findAny() returns Optional<T> Object that may or not can contain the value
@@ -1739,7 +1874,7 @@
 	-	orElse() will get executed and returns default value
 	
 ----------------------------------------------------------------------------------------
-## 6.	Stream Collectors groupingBy Examples
+## 6.	Stream Collectors Examples
 
 	##	https://docs.oracle.com/javase/8/docs/api/java/util/stream/Collectors.html
 
@@ -1749,11 +1884,87 @@
 		
 			-	Collectors.groupingBy()
 			
+	Code Snippet :
+	
+		The following are examples of using the predefined collectors to perform common mutable reduction tasks:
+
+
+		 // Accumulate names into a List
+		 List<String> list = people.stream().map(Person::getName).collect(Collectors.toList());
+
+		 // Accumulate names into a TreeSet
+		 Set<String> set = people.stream().map(Person::getName).collect(Collectors.toCollection(TreeSet::new));
+
+		 // Convert elements to strings and concatenate them, separated by commas
+		 String joined = things.stream()
+							   .map(Object::toString)
+							   .collect(Collectors.joining(", "));
+
+		 // Compute sum of salaries of employee
+		 int total = employees.stream()
+							  .collect(Collectors.summingInt(Employee::getSalary)));
+
+		 // Group employees by department
+		 Map<Department, List<Employee>> byDept
+			 = employees.stream()
+						.collect(Collectors.groupingBy(Employee::getDepartment));
+
+		 // Compute sum of salaries by department
+		 Map<Department, Integer> totalByDept
+			 = employees.stream()
+						.collect(Collectors.groupingBy(Employee::getDepartment,
+													   Collectors.summingInt(Employee::getSalary)));
+
+		 // Partition students into passing and failing
+		 Map<Boolean, List<Student>> passingFailing =
+			 students.stream()
+					 .collect(Collectors.partitioningBy(s -> s.getGrade() >= PASS_THRESHOLD));
+			
 			
 
+----------------------------------------------------------------------------------------
+## 6.	Stream Collectors Examples
+	
+		Code Snippet :
+		
+			Map<BigDecimal, List<Item>> collect = items.stream().collect(Collectors.groupingBy(Item::getPrice,Collectors.toList()));
+			
+			Map<String, List<Item>> collect2 = items.stream().collect(Collectors.groupingBy(Item::getName));
+			
+			Map<Integer, List<String>> collect3 = items.stream().collect(Collectors.groupingBy(Item::getQty,Collectors.mapping(Item::getName, Collectors.toList())));
+			
+			Map<String, Long> counting = items.stream().collect(Collectors.groupingBy(Item::getName, Collectors.counting()));
+			
+			Map<String, Integer> sum = items.stream().collect(Collectors.groupingBy(Item::getName, Collectors.summingInt(Item::getQty)));
+	
+	
+		Output :
+		
+			=========================================================================
+			19.99:[Item [name=banana, qty=20, price=19.99], Item [name=banana, qty=10, price=19.99]]
+			29.99:[Item [name=orang, qty=10, price=29.99], Item [name=watermelon, qty=10, price=29.99]]
+			9.99:[Item [name=apple, qty=10, price=9.99], Item [name=papaya, qty=20, price=9.99], Item [name=apple, qty=10, price=9.99], Item [name=apple, qty=20, price=9.99]]
+			=========================================================================
+			papaya:[Item [name=papaya, qty=20, price=9.99]]
+			banana:[Item [name=banana, qty=20, price=19.99], Item [name=banana, qty=10, price=19.99]]
+			apple:[Item [name=apple, qty=10, price=9.99], Item [name=apple, qty=10, price=9.99], Item [name=apple, qty=20, price=9.99]]
+			orang:[Item [name=orang, qty=10, price=29.99]]
+			watermelon:[Item [name=watermelon, qty=10, price=29.99]]
+			=========================================================================
+			20:[banana, papaya, apple]
+			10:[apple, orang, watermelon, apple, banana]
+			=========================================================================
+			
+			//Group by + Count
+			{
+				papaya=1, banana=2, apple=3, orang=1, watermelon=1
+			}
 
-
-
+			//Group by + Sum qty
+			{
+				papaya=20, banana=30, apple=40, orang=10, watermelon=10
+			}
+			
 ----------------------------------------------------------------------------------------
 
 ## 16.	 String Joiner and String.join()
