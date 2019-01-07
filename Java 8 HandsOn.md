@@ -1,4 +1,5 @@
 
+
 # Java 8 Examples of Lambda Expressions
 
 ## Stream API
@@ -1646,22 +1647,22 @@
 				}
 				
 				
-	Coding Snippet :
+		Coding Snippet :
 
-		Map<String, Integer> map = new HashMap<>();
+			Map<String, Integer> map = new HashMap<>();
 
-		map.put("Apple", 100);
-		map.put("Orange", 50);
-		map.put("Pineapple", 60);
-		map.put("Grapes", 30);
-		map.forEach((k,v)-> System.out.println("[ Key: "+ k+ " | "+ "Value: "+v +" ]"));
-		
-	Output :
+			map.put("Apple", 100);
+			map.put("Orange", 50);
+			map.put("Pineapple", 60);
+			map.put("Grapes", 30);
+			map.forEach((k,v)-> System.out.println("[ Key: "+ k+ " | "+ "Value: "+v +" ]"));
+			
+		Output :
 
-		[ Key: Apple | Value: 100 ]
-		[ Key: Grapes | Value: 30 ]
-		[ Key: Pineapple | Value: 60 ]
-		[ Key: Orange | Value: 50 ]
+			[ Key: Apple | Value: 100 ]
+			[ Key: Grapes | Value: 30 ]
+			[ Key: Pineapple | Value: 60 ]
+			[ Key: Orange | Value: 50 ]
 
 			
 	2. List Interface
@@ -1692,7 +1693,13 @@
 
 	3.	Set Interface
 	
-		- 	Similar to List Interface
+		-	forEach() method will take the Consumer FunctionalInterface as an argument 
+		-	Consumer Interface skeleton
+			
+				@FunctionalInterface
+				public interface Consumer<T> {
+					void accept(T t);
+				}
 		
 		
 		Code Snippet :
@@ -1717,7 +1724,8 @@
 	-	filter() method is intermediate method that will gets executed only when terminal method gets invoked
 	-	filter will used commonly used along with terminal methods like collect() or findAny(), findFirst(),  boolean anyMatch(predicate), boolean allMatch(Predicate p)
 	
-	- orElse(), orElseGet(), get(), orElseThrow(), ofNullable(T), of(T)
+	- orElse(), orElseGet(), get(), orElseThrow(), ofNullable(T), of(T) are terminal methods can be applied after filter methods
+	
 		
 		
 		Predicate<T>
@@ -1744,6 +1752,7 @@
 					
 					a).	Return String :	
 							map.entrySet().stream().filter(m -> m.getValue().equals("string")).map(m -> m.getValue()).collect(Collectors.joining(",")); //returns String
+							
 							map.entrySet().stream().filter(m -> m.getValue().equals("string")).map(Map.Entry::getValue).collect(Collectors.joining(",")); //returns String
 						
 					b).	Return Map :
@@ -1815,13 +1824,16 @@
 	
 		Code Snippet :
 		
+			// Filter with multiple conditions
 			List<Double> collect = persons.stream().filter(p -> p.id > 3 && p.id <10).map(p -> p.salary).collect(Collectors.toList());
 			System.out.println(collect);
 			
+			// Filter With Map
 			Stream<Student> students = persons.stream()
 				.filter(p -> p.getAge() > 18)
 				.map(person -> new Student(person));
 			
+			// Filter With Map using Method Reference
 			Stream<Student> students = persons.stream()
 				.filter(p -> p.getAge() > 18)
 				.map(Student::new);	
@@ -1837,6 +1849,7 @@
 				.collect(Collectors.toCollection(ArrayList::new));	
 		
 			
+			// Using Sequential and parallel
 			List<Student> students = persons.stream()
 				.parallel()
 				.filter(p -> p.getAge() > 18)  // filtering will be performed concurrently
@@ -1863,18 +1876,71 @@
 	-	collect() method is a terminal method ---> means it closed the stream and returns the values other than Stream 
 	- 	Values can be List, Set or Map
 	-	collect() method takes Collectors as an argument that returns set, map, count, sum of elements
+		
+	Code Snippet :
+	
+		list.stream().sorted().filter().collect(Collectors.toList());
+		list.stream().sorted().collect(Collectors.toSet());
+		map.entrySet().stream().sorted(Map.Entry.comparingByKey().reversed()).filter().collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (o,n)-> n, LinkedHashMap::new));
+		list.stream().sorted().collect(Collectors.groupingBy(Pizza::getName, Collectors.toList()));
+
+	
+		
 	
 ----------------------------------------------------------------------------------------
 	
 ## 5.	findAny() and orElse, get(), orElseGet, orElseThrow()
 
-	-	findAny() method can be used once we filtered some of the values 
-	-	findAny() returns Optional<T> Object that may or not can contain the value
-	-	Optional is best way to avoid the null pointer exception
-	-	orElse() will get executed and returns default value
+-	findFirst(), findAny() and orElse, get(), orElseGet, orElseThrow() methods are terminal operations on stream
+-	boolean anyMatch(Predicate p), boolean allMatch(Predicate p) are terminal methods that return boolean on Predicate		
+-	findAny() method can be used once we filtered some of the values 
+-	findAny() returns Optional<T> Object that may or not can contain the value
+-	Optional is best way to avoid the null pointer exception
+-	orElse() will get executed and returns default value
+
+
+----------------------------------------------------------------------------------------
+	
+## 6.	map() method of Stream
+
+-	map() method is used to transform one type to another type
+-	map() method takes Function FunctionalInterface as an argument
+-	map() method is intermediate operation or processing operation
+- 	map() method needs to be pipelined with terminal methods like collect(), forEach(), findAny()
+-	map() method can be pipelined with intermediate methods like filter(), sorted(),serial(), parallel()
+
+
+	Code Snippets :
+	
+		1.	A List of Strings to Uppercase
+		
+			List<String> list = Arrays.asList("a","c","b","e");
+			list.stream().map(s -> s.toUpperCase()).collect(Collectors.toList());
+			list.stream().map(String::toUpperCase).collect();
+		
+		2.	List of objects -> List of String
+
+			List<Staff> staffsList = new ArrayList<>();
+			List<String> staffNames =   staffList.stream().map(Staff::getName).filter(name -> !name.equals("bharath")).collect(Collectors.toList());
+			
+		3.	List of objects -> List of other objects
+
+
+			List<Staff> staffsList = new ArrayList<>();
+			List<Person> personsList = new ArrayList<>();
+			
+			
+			List<Person> personsList = staffList.stream().map(staff -> {
+				Person person = new Person();
+				person.setName(staff.getName());
+				person.setIncome(staff.getSalary());
+				person.setUniqueId(staff.getId());
+				
+				return person;// Returning Person Object
+			}).collect(Collectors.toList());
 	
 ----------------------------------------------------------------------------------------
-## 6.	Stream Collectors Examples
+## 7.	Stream Collectors and collect() Examples
 
 	##	https://docs.oracle.com/javase/8/docs/api/java/util/stream/Collectors.html
 
@@ -1923,7 +1989,7 @@
 			
 
 ----------------------------------------------------------------------------------------
-## 6.	Stream Collectors Examples
+## 8.	Stream Collectors Examples
 	
 		Code Snippet :
 		
