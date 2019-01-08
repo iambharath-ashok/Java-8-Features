@@ -64,16 +64,18 @@
 	-	These methods return specialized stream instead of Stream<T>
 	-	mapping to Integer Stream
 	
-		transactions.stream
-			.mapToInt(Transaction::getValue)
-			.sum()
-			
+```java
+	transactions.stream
+		.mapToInt(Transaction::getValue)
+		.sum();
+````		
 	-	Numeric Range using NumericStreams
 		
 		-	range and rangeClosed
-		
-		IntStream i = IntStream.rangeClosed(10,20)
-						.filter(i -> i%5==0)
+```java		
+	IntStream i = IntStream.rangeClosed(10,20)
+					.filter(i -> i%5==0);
+````
 						
 9.	Building Stream
 		
@@ -93,17 +95,17 @@
 #### 7.	  convert Stream to List
 #### 8.	  Array to Stream
 #### 9.	  Stream is already Operated upon and Supplier
-#### 10.	  Sort a Map
-#### 11.   List to Map
-#### 12.	  Filter a Map
-#### 13.	  flatMap
-#### 14.	  convert Map to List
-#### 15.	  Optional in Depth
-#### 16.	  String Joiner
-#### 17.	  Stream File Reader
-#### 18.	  Join Arrays
-#### 19.	  String to Char Array
-#### 20.	  Covert Primitive Primitive array to List
+#### 10.  Sort a Map
+#### 11.  List to Map
+#### 12.  Filter a Map
+#### 13.  flatMap
+#### 14.  convert Map to List
+#### 15.  Optional in Depth
+#### 16.  String Joiner
+#### 17.  Stream File Reader
+#### 18.  Join Arrays
+#### 19.  String to Char Array
+#### 20.  Covert Primitive Primitive array to List
       
 ----------------------------------------------------------------------------------------
 		
@@ -131,24 +133,27 @@
 		-	We can make use of Comparator interface methods like comparingDouble, comparingInt, comparingLong methods
 		-	comparingDouble, comparingInt, comparingLong methods is Primitive specialized functions that takes primitive functional interface impl as an argument
 		
-			@FunctionalInterface
-			public interface ToIntFunction<T> {
+```java
 
-				int applyAsInt(T value);
-			}
-			
-			@FunctionalInterface
-			public interface ToDoubleFunction<T> {
+	@FunctionalInterface
+	public interface ToIntFunction<T> {
 
-				double applyAsDouble(T value);
-			}
-			
-			@FunctionalInterface
-			public interface ToLongFunction<T> {
+		int applyAsInt(T value);
+	}
 
-				long applyAsLong(T value);
-			}
+	@FunctionalInterface
+	public interface ToDoubleFunction<T> {
 
+		double applyAsDouble(T value);
+	}
+
+	@FunctionalInterface
+	public interface ToLongFunction<T> {
+
+		long applyAsLong(T value);
+	}
+
+````
 						
 			
 ###	Code Snippets of Comparator
