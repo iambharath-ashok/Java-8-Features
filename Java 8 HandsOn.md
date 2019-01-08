@@ -164,7 +164,7 @@
 	1.	Sorting String List in Natural Order
 	
 		Code Snippets:
-		
+```java		
 			public class SortingUsingCollectionsSort {
 				public static void main(String[] args) {
 					String[] stringArray = new String[] { "ffff", "rrr", "dddd", "aaaa", "bbbbbb" };
@@ -173,15 +173,17 @@
 					Collections.sort(stringList);
 				}
 			}
-		Output :
-				[aaaa, bbbbbb, dddd, ffff, rrr]		
+````
 			
+#####		Output :
+				[aaaa, bbbbbb, dddd, ffff, rrr]				
 
 		
 	2.	Sorting String List In Reverse Order
 			
-		Code Snippets:
-			
+#####		Code Snippets:
+
+```java		
 			public class SortingUsingCollectionsSortReverseOrder {
 				public static void main(String[] args) {
 					String[] stringArray = new String[] { "ffff", "rrr", "dddd", "aaaa", "bbbbbb" };
@@ -196,9 +198,12 @@
 					System.out.println(stringList);
 				}
 			}
-		Output :
+````
+			
+#####		Output :
 				[rrr, ffff, dddd, bbbbbb, aaaa]
-				
+
+
 	3.	Sorting Custom Objects
 	
 		Custom Objects can be sorted with Collections.sort() by implementing Comparable and Comparator Interface
@@ -210,8 +215,9 @@
 			-	Below is the example used to sort by last name ... if both last name are same then will use first name as criteria for sorting
 			
 			
-			Code Snippets :	
-				
+#####			Code Snippets :	
+
+```java			
 				class Author implements Comparable<Author> {
 
 					String firstName;
@@ -261,8 +267,9 @@
 					}
 
 				}
+````
 				
-			Output :
+#####			Output :
 			
 					Before Sorting :
 				
@@ -280,11 +287,14 @@
 					Author [firstName=Frank, lastName=Miller, bookName=300]
 					Author [firstName=Henry, lastName=Miller, bookName=Tropic of Cancer]
 
+
 		2.	Comparator
 		
 			-	Comparator will be used for custom sorting at runtime
 
-			Code Snippets :
+#####			Code Snippets :
+
+```java
 			
 				List<Author> authors = getAuthors();
 
@@ -302,8 +312,9 @@
 				
 				System.out.println("After Sorting");
 				authors.forEach(System.out::println);
+````	
 				
-			Output :
+#####			Output :
 
 				Before Sorting
 				
@@ -320,13 +331,16 @@
 				Author [firstName=Deborah, lastName=Hopkinson, bookName=Sky Boys]
 				Author [firstName=George R. R., lastName=Martin, bookName=Song of Ice and Fire]
 				Author [firstName=Henry, lastName=Miller, bookName=Tropic of Cancer]
-	
+
+
+
 -	List of Strings
 	
 	1.	Implementing Comparator Interface	
 	
-		Code Snippets:
+#####		Code Snippets:
 		
+```java
 			public class ListStringSortingBeforeJava8 {
 
 				public static void main(String[] args) {
@@ -344,13 +358,14 @@
 					return s1.compareTo(s2);
 				}
 			}
-			
-		Output :
+````
+		
+#####		Output :
 				[aaaa, bbbbbb, dddd, ffff, rrr]		
-			
+				
 	2.	Lambda Expression
 	
-		Code Snippets:
+#####		Code Snippets:
 
 			public class ListStringSortingLambda {
 				public static void main(String[] args) {
@@ -363,12 +378,12 @@
 				}
 			}
 			
-		Output :
+#####		Output :
 			[aaaa, bbbbbb, dddd, ffff, rrr]						
 			
 	3.	Method Reference
 	
-		Code Snippets
+#####		Code Snippets
 		
 			public class ListStringSortingMethodReference {
 				public static void main(String[] args) {
@@ -381,7 +396,7 @@
 				}
 			}
 			
-		Output :
+#####		Output :
 			[aaaa, bbbbbb, dddd, ffff, rrr]
 
 -	List of Custom Objects
