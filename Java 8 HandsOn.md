@@ -4,150 +4,150 @@
 
 ## Stream API
 
-	-	Sequence of elements
-	-	Source
-	-	Aggregate operations
+-	Sequence of Elements
+-	Source
+-	Aggregate Operations
 	
-	1. Stream Operations
-	
-		1.	Pipelining
-		2.	Internal Iteration
-		
-		Transactions 
-			
-			-	filter  <- Stream<Transaction>
-				
-				-	filter elements based on the stream
-				
-			-	sort  <- Stream<Transaction>
-			-	map  <- Stream<Integer>
-				
-				-	map() method extract the elements and transform it from one form to another form
-				
-			-	collect	<-	List<Integer>
-	2. Stream vs Collections
+1. Stream Operations
 
-		-	Collections is Data Structure for storing the data
-		-	Stream is for performing computations
+	1.	Pipelining
+	2.	Internal Iteration
 	
-	
-	3.	Stream Operations: Exploiting Streams to Process Data
-	
-		-	filter, sorted, map which can be connected together to form a pipeline
-		-	collect which closes the pipeline and return the result
-	
-	4.	Filtering - There are several operations that can be used to filter elements from a stream: 
+	Transactions 
+		
+		-	filter  <- Stream<Transaction>
+			
+			-	filter elements based on the stream
+			
+		-	sort  <- Stream<Transaction>
+		-	map  <- Stream<Integer>
+			
+			-	map() method extract the elements and transform it from one form to another form
+			
+		-	collect	<-	List<Integer>
+2. Stream vs Collections
 
-		-	filter(Predicate): Takes a predicate (java.util.function.Predicate) as an argument and returns a stream including all elements that match the given predicate
-		-	distinct: Returns a stream with unique elements (according to the implementation of equals for a stream element)
-		-	limit(n): Returns a stream that is no longer than the given size n
-		-	skip(n): Returns a stream with the first n number of elements discarded 
-		
-	5.	Finding and matching
-		
-		-	anyMatch, allMatch and noneMatch
-		-	findFirst, findAny - returns Optional
-		
-	6.	Optional<T> is java.util.Optional is a container class to represent the existence or absence of value
-	
-		-	Optional has several methods to verify the existence of value 
-		
-	7.	Mapping 
+	-	Collections is Data Structure for storing the data
+	-	Stream is for performing computations
 
-		-	map method takes Function FunctionalInterface as an argument
-		-	takes each element at a time and transform it to another form or new element	
+
+3.	Stream Operations: Exploiting Streams to Process Data
+
+	-	filter, sorted, map which can be connected together to form a pipeline
+	-	collect which closes the pipeline and return the result
+
+4.	Filtering - There are several operations that can be used to filter elements from a stream: 
+
+	-	filter(Predicate): Takes a predicate (java.util.function.Predicate) as an argument and returns a stream including all elements that match the given predicate
+	-	distinct: Returns a stream with unique elements (according to the implementation of equals for a stream element)
+	-	limit(n): Returns a stream that is no longer than the given size n
+	-	skip(n): Returns a stream with the first n number of elements discarded 
 	
-	8.	Numeric Streams
+5.	Finding and matching
+	
+	-	anyMatch, allMatch and noneMatch
+	-	findFirst, findAny - returns Optional
+	
+6.	Optional<T> is java.util.Optional is a container class to represent the existence or absence of value
+
+	-	Optional has several methods to verify the existence of value 
+	
+7.	Mapping 
+
+	-	map method takes Function FunctionalInterface as an argument
+	-	takes each element at a time and transform it to another form or new element	
+
+8.	Numeric Streams
+	
+	-	Java 8 has added 3 new primitive specialized interface to tackle the issue - IntStream, DoubleStream, LongStream
+	-	Common methods to convert a stream to specialized version are mapToInt, mapToDouble, mapToLong
+	-	These methods return specialized stream instead of Stream<T>
+	-	mapping to Integer Stream
+	
+		transactions.stream
+			.mapToInt(Transaction::getValue)
+			.sum()
+			
+	-	Numeric Range using NumericStreams
 		
-		-	Java 8 has added 3 new primitive specialized interface to tackle the issue - IntStream, DoubleStream, LongStream
-		-	Common methods to convert a stream to specialized version are mapToInt, mapToDouble, mapToLong
-		-	These methods return specialized stream instead of Stream<T>
-		-	mapping to Integer Stream
+		-	range and rangeClosed
 		
-			transactions.stream
-				.mapToInt(Transaction::getValue)
-				.sum()
-				
-		-	Numeric Range using NumericStreams
-			
-			-	range and rangeClosed
-			
-			IntStream i = IntStream.rangeClosed(10,20)
-							.filter(i -> i%5==0)
-							
-	9.	Building Stream
-			
-		-	We can create a stream from file or collection, array or even numbers
-		-	Stream.of and Arrays.stream() can be used to build the stream out of array			
+		IntStream i = IntStream.rangeClosed(10,20)
+						.filter(i -> i%5==0)
+						
+9.	Building Stream
+		
+	-	We can create a stream from file or collection, array or even numbers
+	-	Stream.of and Arrays.stream() can be used to build the stream out of array			
 		
 ----------------------------------------------------------------------------------------
 
 # Contents 
 
-	1.	Comparator
-	2.	forEach
-	3.	filter
-	4.	collect
-	5.	findAny or orElse
-	6.	Collectors.groupingBy
-	7.	convert Stream to List
-	8.	Array to Stream
-	9.	Stream is already Operated upon and Supplier
-	10.  Sort a Map
-	11.  List to Map
-	12.	 Filter a Map
-	13.	 flatMap
-	14.	 convert Map to List
-	15.	 Optional in Depth
-	16.	 String Joiner
-	17.	 Stream File Reader
-	18.	 Join Arrays
-	19.	 String to Char Array
-	20.	 Covert Primitive Primitive array to List
-
+#### 1.	  Comparator
+#### 2.	  forEach
+#### 3.	  filter
+#### 4.	  collect
+#### 5.	  findAny or orElse
+#### 6.	  Collectors.groupingBy
+#### 7.	  convert Stream to List
+#### 8.	  Array to Stream
+#### 9.	  Stream is already Operated upon and Supplier
+#### 10.	  Sort a Map
+#### 11.   List to Map
+#### 12.	  Filter a Map
+#### 13.	  flatMap
+#### 14.	  convert Map to List
+#### 15.	  Optional in Depth
+#### 16.	  String Joiner
+#### 17.	  Stream File Reader
+#### 18.	  Join Arrays
+#### 19.	  String to Char Array
+#### 20.	  Covert Primitive Primitive array to List
+      
 ----------------------------------------------------------------------------------------
 		
 ## 1. Comparator to sort the List Custom Objects
 
-	- 	List is a Data Structure
-	-	Custom Objects with few fields
+- 	List is a Data Structure
+-	Custom Objects with few fields
+
+### Sorting Techniques
 	
-		Sorting Techniques
+- Before Java 8
+	-	Collections.sort(ListImpl, ComparatorImpl)
+- Java 8
+	-	Collections.sort(ListImpl, Lambda Expres of CompImpl);
+	-	Java 8 has added sort method on List Interface
+	-	We can call sort(CompIml) on List Impl
+	-	Can pass Lambda Expr to ListImpl.sort((T1,T2) -> T1.compareTo(T2))
+	-	list.sort(Comparator.comparingLong())| list.sort(Comparator.comparingDouble())| list.sort(Comparator.comparingInt())
+	
+	-	list.sort() and list.stream().sorted()
+	
+		-	sort() and sorted() method is a utility to sort the elements of Collection
+		-	sort() and sorted() takes Comparator as an argument
+		-	We can pass either impl of Comparator Interface or Lambda Expression of Comparator interface
+		-	We can make use of Comparator interface methods like comparingDouble, comparingInt, comparingLong methods
+		-	comparingDouble, comparingInt, comparingLong methods is Primitive specialized functions that takes primitive functional interface impl as an argument
 		
-			- Before Java 8
-				-	Collections.sort(ListImpl, ComparatorImpl)
-			- Java 8
-				-	Collections.sort(ListImpl, Lambda Expres of CompImpl);
-				-	Java 8 has added sort method on List Interface
-				-	We can call sort(CompIml) on List Impl
-				-	Can pass Lambda Expr to ListImpl.sort((T1,T2) -> T1.compareTo(T2))
-				-	list.sort(Comparator.comparingLong())| list.sort(Comparator.comparingDouble())| list.sort(Comparator.comparingInt())
-				
-				-	list.sort() and list.stream().sorted()
-				
-					-	sort() and sorted() method is a utility to sort the elements of Collection
-					-	sort() and sorted() takes Comparator as an argument
-					-	We can pass either impl of Comparator Interface or Lambda Expression of Comparator interface
-					-	We can make use of Comparator interface methods like comparingDouble, comparingInt, comparingLong methods
-					-	comparingDouble, comparingInt, comparingLong methods is Primitive specialized functions that takes primitive functional interface impl as an argument
-					
-						@FunctionalInterface
-						public interface ToIntFunction<T> {
+			@FunctionalInterface
+			public interface ToIntFunction<T> {
 
-							int applyAsInt(T value);
-						}
-						
-						@FunctionalInterface
-						public interface ToDoubleFunction<T> {
+				int applyAsInt(T value);
+			}
+			
+			@FunctionalInterface
+			public interface ToDoubleFunction<T> {
 
-							double applyAsDouble(T value);
-						}
-						
-						@FunctionalInterface
-						public interface ToLongFunction<T> {
+				double applyAsDouble(T value);
+			}
+			
+			@FunctionalInterface
+			public interface ToLongFunction<T> {
 
-							long applyAsLong(T value);
-						}
+				long applyAsLong(T value);
+			}
 
 						
 			
@@ -1986,10 +1986,29 @@
 			 students.stream()
 					 .collect(Collectors.partitioningBy(s -> s.getGrade() >= PASS_THRESHOLD));
 			
+		// groupingBy()	
+		Map<BigDecimal, List<Item>> collect = items.stream().collect(Collectors.groupingBy(Item::getPrice,Collectors.toList()));
 			
+		Map<String, List<Item>> collect2 = items.stream().collect(Collectors.groupingBy(Item::getName));
+		
+		Map<Integer, List<String>> collect3 = items.stream().collect(Collectors.groupingBy(Item::getQty, Collectors.mapping(Item::getName, Collectors.toList())));
+		
+		Map<String, Long> counting = items.stream().collect(Collectors.groupingBy(Item::getName, Collectors.counting()));
+		
+		Map<String, Integer> sum = items.stream().collect(Collectors.groupingBy(Item::getName, Collectors.summingInt(Item::getQty)));
+		
+		fruitsNames.stream().collect(Collectors.groupingBy(java.util.function.Function.identity(), Collectors.counting()));
+		
+		
+		// joining
+		String collect = stringList.stream().collect(Collectors.joining());
+		String collect2 = stringList.stream().collect(Collectors.joining("||"));
+		String collect3 = stringList.stream().collect(Collectors.joining("||","{","}"));
+			 
+				
 
 ----------------------------------------------------------------------------------------
-## 8.	Stream Collectors Examples
+## 8.	groupingBy() method
 	
 		Code Snippet :
 		
@@ -1997,11 +2016,15 @@
 			
 			Map<String, List<Item>> collect2 = items.stream().collect(Collectors.groupingBy(Item::getName));
 			
-			Map<Integer, List<String>> collect3 = items.stream().collect(Collectors.groupingBy(Item::getQty,Collectors.mapping(Item::getName, Collectors.toList())));
+			Map<Integer, List<String>> collect3 = items.stream().collect(Collectors.groupingBy(Item::getQty, Collectors.mapping(Item::getName, Collectors.toList())));
 			
 			Map<String, Long> counting = items.stream().collect(Collectors.groupingBy(Item::getName, Collectors.counting()));
 			
 			Map<String, Integer> sum = items.stream().collect(Collectors.groupingBy(Item::getName, Collectors.summingInt(Item::getQty)));
+			
+			fruitsNames.stream().collect(Collectors.groupingBy(java.util.function.Function.identity(), Collectors.counting()));
+			
+			
 	
 	
 		Output :
@@ -2032,6 +2055,27 @@
 			}
 			
 ----------------------------------------------------------------------------------------
+
+
+----------------------------------------------------------------------------------------
+## 8.	filter NULL values stream
+
+	Code Snippet :
+	
+		Stream<String> languages = Stream.of("java", "python", "node", null, "ruby", null, "php");
+		
+		languages.collect(Collectors.toList());
+		
+		// Filtering null values 
+		
+		languages.filter(l -> l != null).collect(Collectors.toSet());
+		
+		// Filtering Null Values using Objects.nonNull() static method
+		
+		languages.filter(Objects::nonNull).collect(Collectors.toList());
+
+
+
 
 ## 16.	 String Joiner and String.join()
 
