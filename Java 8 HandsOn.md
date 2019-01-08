@@ -477,9 +477,9 @@
 				
 ####	4.	Using Lambda Expression of Custom Comparator on List.stream().sorted() 
 		
-		-	If we use stream it will not modify the existing source or list
-		-	After sorting we call the terminal stream operation and collect it to new List 
-		
+-	If we use stream it will not modify the existing source or list
+-	After sorting we call the terminal stream operation and collect it to new List 
+
 		Code Snippets :
 		
 			Comparator<Hosting> c = new HostingComparator();
