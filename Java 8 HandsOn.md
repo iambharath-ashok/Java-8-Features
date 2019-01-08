@@ -366,7 +366,7 @@
 ####	2.	Lambda Expression
 	
 #####		Code Snippets:
-
+```java
 			public class ListStringSortingLambda {
 				public static void main(String[] args) {
 					String[] stringArray = new String[] { "ffff", "rrr", "dddd", "aaaa", "bbbbbb" };
@@ -377,14 +377,14 @@
 					System.out.println(stringList);
 				}
 			}
-			
+````			
 #####		Output :
 			[aaaa, bbbbbb, dddd, ffff, rrr]						
 			
 ####	3.	Method Reference
 	
 #####		Code Snippets
-		
+```java		
 			public class ListStringSortingMethodReference {
 				public static void main(String[] args) {
 					String[] stringArray = new String[] { "ffff", "rrr", "dddd", "aaaa", "bbbbbb" };
@@ -395,7 +395,7 @@
 					System.out.println(stringList);
 				}
 			}
-			
+````			
 #####		Output :
 			[aaaa, bbbbbb, dddd, ffff, rrr]
 
@@ -405,7 +405,7 @@
 ####	1.	Implementing Comparator Interface using it on List.sort() method
 	
 #####		Code Snippets :
-		
+```java		
 			class Hosting {
 				private int id;
 				private String name;
@@ -442,6 +442,7 @@
 							new Hosting(4, "heroku.com", 4444001l), new Hosting(3, "digitalocean.com", 109903l));
 				}
 			}
+````
 		
 #####		Output :
 			*Before Sorting
@@ -460,66 +461,67 @@
 			
 ####	2.	Using Lambda Expression of Comparator Impl on List.sort() method
 	
-		Code Snippets :
-			
+#####		Code Snippets :
+```java			
 				Comparator<Hosting> c = (h1,h2) -> h1.getWebsites().compareTo(h2.getWebsites());
 				hostingList.sort(c);
 				hostingList.forEach(System.out::println);
-			
+````			
 ####	3.	Using Method Reference of Comparator Impl on List.sort() method
 		
-		Code Snippets :
-			
+#####		Code Snippets :
+```java			
 				HostingComparator hc = new HostingComparator();
 				Comparator<Hosting> c = hc::compare;
 				hostingList.sort(c);
 				hostingList.forEach(System.out::println);
-				
+````	
+			
 ####	4.	Using Lambda Expression of Custom Comparator on List.stream().sorted() 
 		
 -	If we use stream it will not modify the existing source or list
 -	After sorting we call the terminal stream operation and collect it to new List 
 
-		Code Snippets :
-		
+#####		Code Snippets :
+```java		
 			Comparator<Hosting> c = new HostingComparator();
 			List<Hosting> sortedHostingList = hostingList.stream().sorted(c).collect(Collectors.toList());
 			sortedHostingList.forEach(System.out::println);
-			
+````			
 			
 ####	5.	Using Comparator Lambda Expression and Method Expression on List.stream().sorted()
 
-		Code Snippets :
+#####		Code Snippets :
 			
-			1. Method Reference
-			
+1. Method Reference
+```java			
 				List<Hosting> sortByWebsites = hostingList.stream().sorted(Comparator.comparingLong(Hosting::getWebsites)).collect(Collectors.toList());
 				List<Hosting> sortById = hostingList.stream().sorted(Comparator.comparingInt(Hosting::getId)).collect(Collectors.toList());
 				List<Hosting> sortByName = hostingList.stream().sorted(Comparator.comparing(Hosting::getName)).collect(Collectors.toList());
-			
-			2. Lambda Expression
-			
+````			
+2. Lambda Expression
+```java			
 				List<Hosting> sortByWebsites = hostingList.stream().sorted(Comparator.comparingLong(h -> h.getWebsites())).collect(Collectors.toList());
 				List<Hosting> sortById = hostingList.stream().sorted(Comparator.comparingInt(h -> h.getId())).collect(Collectors.toList());
 				List<Hosting> sortByName = hostingList.stream().sorted(Comparator.comparing(h -> h.getName())).collect(Collectors.toList());
-			
+````			
 	
 ####	6.	Sorting Reverse Order using Lambda Expression and Method Reference on List.stream().sorted()
 	
-		Code Snippets :
+#####		Code Snippets :
 			
-			1. Method Reference
-			
+1. Method Reference
+```java			
 				List<Hosting> sortByWebsites = hostingList.stream().sorted(Comparator.comparingLong(Hosting::getWebsites).reversed()).collect(Collectors.toList());
 				List<Hosting> sortById = hostingList.stream().sorted(Comparator.comparingInt(Hosting::getId).reversed()).collect(Collectors.toList());
 				List<Hosting> sortByName = hostingList.stream().sorted(Comparator.comparing(Hosting::getName).reversed()).collect(Collectors.toList());
-			
-			2. Lambda Expression
-			
+````			
+2. Lambda Expression
+```java			
 				List<Hosting> sortByWebsites = hostingList.stream().sorted(Comparator.comparingLong(h -> h.getWebsites())).collect(Collectors.toList());
 				List<Hosting> sortById = hostingList.stream().sorted(Comparator.comparingInt(h -> h.getId()).reversed()).collect(Collectors.toList());
 				List<Hosting> sortByName = hostingList.stream().sorted(Comparator.comparing(h -> h.getName()).reversed()).collect(Collectors.toList());
-				
+````				
 ----------------------------------------------------------------------------------------
 ## Sorting Set Data Structure
 
