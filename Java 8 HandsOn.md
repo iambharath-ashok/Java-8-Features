@@ -1940,7 +1940,7 @@
 			}).collect(Collectors.toList());
 	
 ----------------------------------------------------------------------------------------
-## 7.	Stream Collectors and collect() Examples
+## 7.	Collectors and Stream collect() Examples
 
 	##	https://docs.oracle.com/javase/8/docs/api/java/util/stream/Collectors.html
 
@@ -2079,55 +2079,56 @@
 
 ## 16.	 String Joiner and String.join()
 
-	1. StringJoiner
-	
-		-  	StringJoiner is a Class added in Java 8
-		-	StringJoiner is a final class
-		-	StringJoiner is used to join the strings
-		-	StringJoiner has overloaded constructors 
-			
-				-	Takes delimiter and another takes prefix and suffix	 
-					
-					public StringJoiner(CharSequence delimiter) {}
-					public StringJoiner(CharSequence delimiter, CharSequence prefix, CharSequence suffix){}
-				
-				-	StingJoiner.add("string")
-					
-					-	add() method is used to add the strings
-		-	Code Samples
+1. StringJoiner
 
-			StringJoiner sj = new StringJoiner(",");
-				sj = new StringJoiner("|","Prefix- ", " -Suffix");
-				sj = new StringJoiner("|","{", "}");
-				sj.add("dddd");
-				sj.add("eeee");
-				sj.add("ffff");
-				sj.add("gggg");
-				sj.add("ooooooooo");
+-  	StringJoiner is a Class added in Java 8
+-	StringJoiner is a final class
+-	StringJoiner is used to join the strings
+-	StringJoiner has overloaded constructors 
+	
+		-	Takes delimiter and another takes prefix and suffix	 
+			
+			public StringJoiner(CharSequence delimiter) {}
+			public StringJoiner(CharSequence delimiter, CharSequence prefix, CharSequence suffix){}
+		
+		-	StingJoiner.add("string")
+			
+			-	add() method is used to add the strings
+			
+	-	Code Samples
+
+		StringJoiner sj = new StringJoiner(",");
 			sj = new StringJoiner("|","Prefix- ", " -Suffix");
-			sj = new StringJoiner("|","{", "}");		
-	
-	2.	String.join()
+			sj = new StringJoiner("|","{", "}");
+			sj.add("dddd");
+			sj.add("eeee");
+			sj.add("ffff");
+			sj.add("gggg");
+			sj.add("ooooooooo");
+		sj = new StringJoiner("|","Prefix- ", " -Suffix");
+		sj = new StringJoiner("|","{", "}");		
 
-		-	Added since Java 8
-		-	join() method takes delimiter and elements as the params
-		-	join() is a static method and has two overloaded methods
-		-	Takes CharSequence or Collection Impl
-		
-			public static String join(CharSequence delimiter, CharSequence ... elements)
-			public static String join(CharSequence delimiter, Iterable<? extends CharSequence> elements)
-			
-			
-	3.	Collectors.joining()
+2.	String.join()
+
+-	Added since Java 8
+-	join() method takes delimiter and elements as the params
+-	join() is a static method and has two overloaded methods
+-	Takes CharSequence or Collection Impl
 	
-		-	Collectors.joining() will takes the delimiter, prefix and suffix
-		-	Returns string with joined the set of strings
+		public static String join(CharSequence delimiter, CharSequence ... elements)
+		public static String join(CharSequence delimiter, Iterable<? extends CharSequence> elements)
 		
-		- 	joining() method of Collectors interface have 3 overloaded methods 
-				
-			public static Collector<CharSequence, ?, String> joining(CharSequence delimiter)
-			public static Collector<CharSequence, ?, String> joining(CharSequence delimiter, CharSequence prefix, CharSequence suffix)
 		
+3.	Collectors.joining()
+
+-	Collectors.joining() will takes the delimiter, prefix and suffix
+-	Returns string with joined the set of strings
+
+- 	joining() method of Collectors interface have 3 overloaded methods 
+			
+		public static Collector<CharSequence, ?, String> joining(CharSequence delimiter)
+		public static Collector<CharSequence, ?, String> joining(CharSequence delimiter, CharSequence prefix, CharSequence suffix)
+	
 ----------------------------------------------------------------------------------------
 
 ## 17.	 Stream File Reader		
