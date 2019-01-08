@@ -2088,30 +2088,29 @@
 	
 		-	Takes delimiter and another takes prefix and suffix	 
 		
-		```java		
-			public StringJoiner(CharSequence delimiter) {}
-			public StringJoiner(CharSequence delimiter, CharSequence prefix, CharSequence suffix){}
-		
+```java		
+	public StringJoiner(CharSequence delimiter) {}
+	public StringJoiner(CharSequence delimiter, CharSequence prefix, CharSequence suffix){}
+````
 		-	StingJoiner.add("string")
 			
 			-	add() method is used to add the strings
-		````
+		
 		
 	-	Code Samples
 	
-	```java
-		StringJoiner sj = new StringJoiner(",");
-			sj = new StringJoiner("|","Prefix- ", " -Suffix");
-			sj = new StringJoiner("|","{", "}");
-			sj.add("dddd");
-			sj.add("eeee");
-			sj.add("ffff");
-			sj.add("gggg");
-			sj.add("ooooooooo");
+```java
+	StringJoiner sj = new StringJoiner(",");
 		sj = new StringJoiner("|","Prefix- ", " -Suffix");
-		sj = new StringJoiner("|","{", "}");		
-
-	````	
+		sj = new StringJoiner("|","{", "}");
+		sj.add("dddd");
+		sj.add("eeee");
+		sj.add("ffff");
+		sj.add("gggg");
+		sj.add("ooooooooo");
+	sj = new StringJoiner("|","Prefix- ", " -Suffix");
+	sj = new StringJoiner("|","{", "}");		
+````	
 2.	String.join()
 
 	-	Added since Java 8
@@ -2119,10 +2118,10 @@
 	-	join() is a static method and has two overloaded methods
 	-	Takes CharSequence or Collection Impl
 	
-	```java
-		public static String join(CharSequence delimiter, CharSequence ... elements)
-		public static String join(CharSequence delimiter, Iterable<? extends CharSequence> elements)
-	````	
+```java
+	public static String join(CharSequence delimiter, CharSequence ... elements)
+	public static String join(CharSequence delimiter, Iterable<? extends CharSequence> elements)
+````	
 		
 3.	Collectors.joining()
 
@@ -2131,10 +2130,10 @@
 
 	- 	joining() method of Collectors interface have 3 overloaded methods 
 		
-		```java
-			public static Collector<CharSequence, ?, String> joining(CharSequence delimiter)
-			public static Collector<CharSequence, ?, String> joining(CharSequence delimiter, CharSequence prefix, CharSequence suffix)
-		````
+```java
+	public static Collector<CharSequence, ?, String> joining(CharSequence delimiter)
+	public static Collector<CharSequence, ?, String> joining(CharSequence delimiter, CharSequence prefix, CharSequence suffix)
+````
 ----------------------------------------------------------------------------------------
 
 ## 17.	 Stream File Reader		
