@@ -458,7 +458,7 @@
 			Hosting [id=4, name=heroku.com, websites=4444001]*
 			
 			
-	2.	Using Lambda Expression of Comparator Impl on List.sort() method
+####	2.	Using Lambda Expression of Comparator Impl on List.sort() method
 	
 		Code Snippets :
 			
@@ -466,7 +466,7 @@
 				hostingList.sort(c);
 				hostingList.forEach(System.out::println);
 			
-	3.	Using Method Reference of Comparator Impl on List.sort() method
+####	3.	Using Method Reference of Comparator Impl on List.sort() method
 		
 		Code Snippets :
 			
@@ -475,7 +475,7 @@
 				hostingList.sort(c);
 				hostingList.forEach(System.out::println);
 				
-	4.	Using Lambda Expression of Custom Comparator on List.stream().sorted() 
+####	4.	Using Lambda Expression of Custom Comparator on List.stream().sorted() 
 		
 		-	If we use stream it will not modify the existing source or list
 		-	After sorting we call the terminal stream operation and collect it to new List 
@@ -487,7 +487,7 @@
 			sortedHostingList.forEach(System.out::println);
 			
 			
-	6.	Using Comparator Lambda Expression and Method Expression on List.stream().sorted()
+####	5.	Using Comparator Lambda Expression and Method Expression on List.stream().sorted()
 
 		Code Snippets :
 			
@@ -504,7 +504,7 @@
 				List<Hosting> sortByName = hostingList.stream().sorted(Comparator.comparing(h -> h.getName())).collect(Collectors.toList());
 			
 	
-	8.	Sorting Reverse Order using Lambda Expression and Method Reference on List.stream().sorted()
+####	6.	Sorting Reverse Order using Lambda Expression and Method Reference on List.stream().sorted()
 	
 		Code Snippets :
 			
