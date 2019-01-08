@@ -2081,10 +2081,10 @@
 
 1. StringJoiner
 
--  	StringJoiner is a Class added in Java 8
--	StringJoiner is a final class
--	StringJoiner is used to join the strings
--	StringJoiner has overloaded constructors 
+	-  	StringJoiner is a Class added in Java 8
+	-	StringJoiner is a final class
+	-	StringJoiner is used to join the strings
+	-	StringJoiner has overloaded constructors 
 	
 		-	Takes delimiter and another takes prefix and suffix	 
 			
@@ -2110,10 +2110,10 @@
 
 2.	String.join()
 
--	Added since Java 8
--	join() method takes delimiter and elements as the params
--	join() is a static method and has two overloaded methods
--	Takes CharSequence or Collection Impl
+	-	Added since Java 8
+	-	join() method takes delimiter and elements as the params
+	-	join() is a static method and has two overloaded methods
+	-	Takes CharSequence or Collection Impl
 	
 		public static String join(CharSequence delimiter, CharSequence ... elements)
 		public static String join(CharSequence delimiter, Iterable<? extends CharSequence> elements)
@@ -2121,10 +2121,10 @@
 		
 3.	Collectors.joining()
 
--	Collectors.joining() will takes the delimiter, prefix and suffix
--	Returns string with joined the set of strings
+	-	Collectors.joining() will takes the delimiter, prefix and suffix
+	-	Returns string with joined the set of strings
 
-- 	joining() method of Collectors interface have 3 overloaded methods 
+	- 	joining() method of Collectors interface have 3 overloaded methods 
 			
 		public static Collector<CharSequence, ?, String> joining(CharSequence delimiter)
 		public static Collector<CharSequence, ?, String> joining(CharSequence delimiter, CharSequence prefix, CharSequence suffix)
