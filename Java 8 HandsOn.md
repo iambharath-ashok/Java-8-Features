@@ -161,9 +161,9 @@
 
 -	Using Collections.sort() 
 	
-	1.	Sorting String List in Natural Order
+####	1.	Sorting String List in Natural Order
 	
-		Code Snippets:
+#####		Code Snippets:
 ```java		
 			public class SortingUsingCollectionsSort {
 				public static void main(String[] args) {
@@ -179,7 +179,7 @@
 				[aaaa, bbbbbb, dddd, ffff, rrr]				
 
 		
-	2.	Sorting String List In Reverse Order
+####	2.	Sorting String List In Reverse Order
 			
 #####		Code Snippets:
 
@@ -204,7 +204,7 @@
 				[rrr, ffff, dddd, bbbbbb, aaaa]
 
 
-	3.	Sorting Custom Objects
+####	3.	Sorting Custom Objects
 	
 		Custom Objects can be sorted with Collections.sort() by implementing Comparable and Comparator Interface
 		
@@ -336,7 +336,7 @@
 
 -	List of Strings
 	
-	1.	Implementing Comparator Interface	
+####	1.	Implementing Comparator Interface	
 	
 #####		Code Snippets:
 		
@@ -363,7 +363,7 @@
 #####		Output :
 				[aaaa, bbbbbb, dddd, ffff, rrr]		
 				
-	2.	Lambda Expression
+####	2.	Lambda Expression
 	
 #####		Code Snippets:
 
@@ -381,7 +381,7 @@
 #####		Output :
 			[aaaa, bbbbbb, dddd, ffff, rrr]						
 			
-	3.	Method Reference
+####	3.	Method Reference
 	
 #####		Code Snippets
 		
@@ -402,9 +402,9 @@
 -	List of Custom Objects
 	
 	
-	1.	Implementing Comparator Interface using it on List.sort() method
+####	1.	Implementing Comparator Interface using it on List.sort() method
 	
-		Code Snippets :
+#####		Code Snippets :
 		
 			class Hosting {
 				private int id;
@@ -443,7 +443,7 @@
 				}
 			}
 		
-		Output :
+#####		Output :
 			*Before Sorting
 			=========================================================
 			Hosting [id=1, name=aws.amazon.com, websites=200000]
