@@ -159,7 +159,7 @@
 ###	Code Snippets of Comparator
 
 
--	Using Collections.sort() 
+### 1.	Using Collections.sort() 
 	
 ####	1.	Sorting String List in Natural Order
 	
@@ -208,12 +208,12 @@
 	
 		Custom Objects can be sorted with Collections.sort() by implementing Comparable and Comparator Interface
 		
-		1.	Comparable
-			
-			-	Comparable will be used at class declaration
-			-	Something like default sorting 
-			-	Below is the example used to sort by last name ... if both last name are same then will use first name as criteria for sorting
-			
+1.	Comparable
+	
+	-	Comparable will be used at class declaration
+	-	Something like default sorting 
+	-	Below is the example used to sort by last name ... if both last name are same then will use first name as criteria for sorting
+	
 			
 #####			Code Snippets :	
 
@@ -288,9 +288,9 @@
 					Author [firstName=Henry, lastName=Miller, bookName=Tropic of Cancer]
 
 
-		2.	Comparator
-		
-			-	Comparator will be used for custom sorting at runtime
+2.	Comparator
+
+	-	Comparator will be used for custom sorting at runtime
 
 #####			Code Snippets :
 
@@ -334,7 +334,7 @@
 
 
 
--	List of Strings
+### 2.	List of Strings
 	
 ####	1.	Implementing Comparator Interface	
 	
@@ -399,7 +399,7 @@
 #####		Output :
 			[aaaa, bbbbbb, dddd, ffff, rrr]
 
--	List of Custom Objects
+### 3.	List of Custom Objects
 	
 	
 ####	1.	Implementing Comparator Interface using it on List.sort() method
