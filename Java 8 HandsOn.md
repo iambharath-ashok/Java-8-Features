@@ -2391,7 +2391,7 @@ list.stream().map(x -> x.getBook()).flatMap(x -> x.stream()).distinct().collect(
 			-	add() method is used to add the strings
 		
 		
-	-	Code Samples
+##### Code Samples
 	
 ```java
 	StringJoiner sj = new StringJoiner(",");
@@ -2510,7 +2510,7 @@ list.stream().map(x -> x.getBook()).flatMap(x -> x.stream()).distinct().collect(
 	
 ----------------------------------------------------------------------------------------	
 	
-## 20. Random
+## 20. Random Class
 
 
 -	Random is a class from java.util package
