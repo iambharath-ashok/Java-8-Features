@@ -92,7 +92,7 @@
 #### 4.	  collect
 #### 5.	  findAny or orElse
 #### 6.	  Collectors.groupingBy
-#### 7.	  convert Stream to List
+#### 7.	  Convert Stream to List
 #### 8.	  Array to Stream
 #### 9.	  Stream is already Operated upon and Supplier
 #### 10.  Sort a Map
@@ -2076,11 +2076,9 @@
 				papaya=20, banana=30, apple=40, orang=10, watermelon=10
 			}
 			
-----------------------------------------------------------------------------------------
-
 
 ----------------------------------------------------------------------------------------
-## 8.	filter NULL values stream
+## 9.	filter NULL values stream
 
 	Code Snippet :
 	
@@ -2095,10 +2093,284 @@
 		// Filtering Null Values using Objects.nonNull() static method
 		
 		languages.filter(Objects::nonNull).collect(Collectors.toList());
+		
+		
+----------------------------------------------------------------------------------------
+## 10.	Convert a Stream to List
+
+##### Code Snippet: 
+
+```java
+	Stream<Integer> stream = Stream.of(1,34,5656,664,4646);
+	List<Integer> list = stream.collect(Collectors.toList());
+````
+
+----------------------------------------------------------------------------------------
+## 11.	Arrays to Stream 
+
+#### Code Snippets
+
+	Arrays.java 
+	
+		public static <T> Stream<T> stream(T[] array) {
+			return stream(array, 0, array.length);
+		}
+		
+		public static IntStream stream(int[] array) {
+			return stream(array, 0, array.length);
+		}
+	
+	Stream.java
+		
+		public static<T> Stream<T> of(T... values) {
+			return Arrays.stream(values);
+		}
+		
+		public static<T> Stream<T> of(T t) {
+			return StreamSupport.stream(new Streams.StreamBuilderImpl<>(t), false);
+		}
+
+		@FunctionalInterface
+		public interface ToIntFunction<T> {
+		
+			int applyAsInt(T value);
+		}
+		
+		@FunctionalInterface
+		public interface Function<T, R> {
+		
+			R apply(T t);
+			
+		}
+		
+		IntStream mapToInt(ToIntFunction<? super T> mapper)
+		IntStream flatMapToInt(Function<? super T, ? extends IntStream> mapper);
+		
+###	1. String Array to Stream 
+
+##### Code Snippet: 
+
+		String[] stringArray = new String [] { "d", "a", "g", "y" };
+		Stream<String> stringStream = Stream.of(stringArray);
+		Stream<String> stringStream = Arrays.stream(stringArray);
+		
+		
+		
+###	2.	Primitive int Array(int[]) to Stream
+
+
+##### Code Snippets: 
+
+	int[] intArray = { 1, 2, 3, 4, 5, 6 };
+
+	
+	// Using Arrays.stream()
+	IntStream integerStream = Arrays.stream(intArray);
+	intgerStream.forEach(i -> System.out.println(i));
+	integerStream.forEach(System.out::println);
+	
+	// Using Stream.of()
+	
+	
+	// We need to do additional Step for Stream.of() for Primitive Arrays
+	// We need to flat Primitive Array to integer Stream using flatMapToInt(), flatMapToLong(), flatMapToDouble()
+	
+	Stream<int[]>  intStream = Stream.of(intArray);
+	IntegerStream integerStream = intStream.flatMapToInt(iArray -> Arrays.stream(iArray));
+	integerStream.forEach(System.out::println);
+	
+	
+	//Below will not work
+	// Return type of Arrays.stream(iArray) is IntStream;
+	// Return type of ToIntFunction is int
+	
+	intStream.mapToInt(iArray -> Arrays.stream(iArray)); // Compilation Error: Type mismatch: cannot convert from IntStream to int
+	 
+	
+-----------------------------------------------------------------------------------------
+
+## 12.	Stream already operated upon
+
+##### Code snippets
+
+	String [] stringArray = { "d", "q", "g", "r" };
+	Stream<String> streamString = Stream.of(stringArray);
+	
+	streamString.forEach(System.out::println);
+	
+	streamString.filter(s -> !s.equals(a)).collect(Collectors.toList());// Will Throw java.lang.IllegalStateException: Stream Already been Operated or closed Exception
+	
+#### Solution: use Stream Supplier
+
+	String [] stringArray = new String[] { "d", "q", "g", "r" };
+	Supplier<Stream<String>>  supplier = () -> Stream.of(stringArray);
+	
+	supplier.get().forEach(System.out::println);
+	supplier.get().filter(s -> !s.equals(a)).collect(Collectors.toList());
+	
+-----------------------------------------------------------------------------------------
+
+## 13.	sorted() 
+
+-	sorted() method is a intermediate operation 
+-	sorted() method is used to sort the Collection Elements
+-	sorted() 
+
+
+### Comparator Methods:
+	
+	Comparator.naturalOrder();
+	Comparator.reverseOrder();
+	Comparator.comparing(Function);
+	Comparator.comparing(Function, Comparator);
+	Comparator.comparingInt(IntFunction);
+	Comparator.comparingDobule(DoubleFunction);
+	Comparator.comparingLong(LongFunction);
+	Comparator.nullsFirst();
+	Comparator.nullsLast();
+
+### List/Set: 
+
+	list.stream().sorted(Comparator....)
+	
+### Map:
+
+	map.entrySet().stream().sorted(Map.Entry.comparingByKey());
+	map.entrySet().stream().sorted(Map.Entry.comparingByValue());
+	map.entrySet().stream().sorted(Map.Entry.comparingByKey(Comparator.....));
+	map.entrySet().stream().sorted(Map.Entry.comparingByKey(Comparator....));
+	
+-----------------------------------------------------------------------------------------	
+	
+	
+##	14.	flatMap() Converting to Stream
+
+
+Stream<String[]>	
+Stream<Set<String>>	
+Stream<List<String>>	
+Stream<List<Object>>
+
+String [][] stringArray -> Arrays.stream() -> Stream<String[]> -> flatMap() -> Stream<String>
+Stream<String[]>		-> flatMap ->	Stream<String>  
+
+
+Stream<Set<String>>	-> flatMap ->	Stream<String>
+Stream<List<String>>	-> flatMap ->	Stream<String>
+Stream<List<Object>>	-> flatMap ->	Stream<Object>
 
 
 
+public class Student {
 
+    private String name;
+    private Set<String> book;
+
+    public void addBook(String book) {
+        if (this.book == null) {
+            this.book = new HashSet<>();
+        }
+        this.book.add(book);
+    }
+    //getters and setters
+
+}
+
+
+
+ Student obj1 = new Student();
+        obj1.setName("mkyong");
+        obj1.addBook("Java 8 in Action");
+        obj1.addBook("Spring Boot in Action");
+        obj1.addBook("Effective Java (2nd Edition)");
+
+        Student obj2 = new Student();
+        obj2.setName("zilap");
+        obj2.addBook("Learning Python, 5th Edition");
+        obj2.addBook("Effective Java (2nd Edition)");
+		
+		
+		
+ List<Student> list = new ArrayList<>();
+        list.add(obj1);
+        list.add(obj2);
+
+list.stream().map(x -> x.getBook()).flatMap(x -> x.stream()).distinct().collect(Collectors.toList());
+
+-----------------------------------------------------------------------------------------
+
+##	15. Optional 
+
+-	Optional is a utility class from java.util package
+-	Optional is container class that holds at most one object at a time
+-	Optional represents whether values is present or not 
+
+### Advantages of Optional 
+
+-	No need of null checks
+-	No Runtime NullPointerException 
+-	Clear and Clean APIs
+
+### Methods of Optional 
+
+1.	of(T)
+
+	-	Throws NullPointerException Exception for Optional.of(null)
+	
+2.  ofNullable(T)
+
+3.	filter(Predicate predicate)
+
+4.	ifPresent(Consumer consumer)
+
+5.	boolean isPresent()
+
+6.	Optional.map(Function)
+
+7. Optional.flatMap()
+
+8.	orElse(), orElseThrow, get(), orElseGet()
+		
+	Code Snippet:
+	
+		Optional<String> stringOptional = Optional.of(new String("Bharath"));
+		
+		System.out.println(stringOptional);
+		
+		//Optional.of(null);
+		
+		Optional<Object> empty = Optional.empty();
+		
+		
+		System.out.println(Optional.ofNullable(null));
+		System.out.println(Optional.ofNullable(Optional.ofNullable(Optional.ofNullable(89))));
+		Optional<Double> ofNullable = Optional.ofNullable(7.93d);
+		System.out.println(ofNullable);
+		
+		Optional<StringBuffer> map = Optional.ofNullable("").map(s -> new StringBuffer().append("Bharath"));
+		System.out.println(map);
+		
+		Optional<String> map2 = map.map(s -> s.toString()).filter(s -> s.equals("Bharath")).map(s -> "Sharath");
+		
+		System.out.println(map2);
+		
+		
+		System.out.println(map.isPresent());
+		
+		System.out.println(Optional.ofNullable("").isPresent());
+		Optional.ofNullable("").ifPresent(s -> IntStream.of(1000).forEach(System.out::println));
+		
+		Optional<Integer> optionalInteger = Optional.of(56);
+		Optional<Integer> filter = optionalInteger.filter(integer -> integer > 10);
+		System.out.println(filter);
+		
+			Optional.ofNullable(89).ifPresent(OptionalEx::processOptional);
+	
+	
+		static void processOptional(Integer intger) {
+	
+		}
+-----------------------------------------------------------------------------------------
 ## 16.	 String Joiner and String.join()
 
 1. StringJoiner
@@ -2238,7 +2510,158 @@
 	
 ----------------------------------------------------------------------------------------	
 	
+## 20. Random
+
+
+-	Random is a class from java.util package
+-	Random is a utility class used to generate random integers 
+
+
+### Code Snippet :
+
+	Random random = new Random();
 	
+	random.nextInt(bound);
+	random.nextInt(10); [0(min) ... 9(max)] // max is exclusive
+	
+-	Include max as boundary 
+	
+	random.nextInt(10 + 1);[0 (min) ... 10(max)] // max 11 is exclusive 
+	
+-	Integer b/w max and min
+
+#### Formula for Boundary
+	
+-	random.nextInt((max - min)+1) + min;
+	
+	
+### Code Snippet for Generating 10 random integer b/w boundary
+
+
+	main() {
+	
+		for(int i=0; i<10; i++){
+			generateRandomNumbers(10, 30);
+		}
+	}
+	
+	public void generateRandomNumbers(int min, int max) {
+		
+		if(min >= max) {
+			
+			throw new IllegalArgumentException("");
+		} else {
+			Random random = new Random();
+			Integer integer = random.nextInt((max - min) + 1) + min;
+			System.out.println(intger);
+		}
+	
+	}
+	
+	
+### Java 8
+
+-	In Java 8, two methods have been added to Random class
+
+	public IntStream ints(int min, int max);
+	public IntStream ints(long streamSize, int min, int max);
+
+-	max is exclusive
+
+
+#### Code Snippets:
+
+		Random random = new Random();
+		IntStream ints = random.ints(10);
+		
+		System.out.println(ints);
+		System.out.println(random.ints());
+		
+		random.ints(1,10).forEach(System.out::println);// Result is infinite Loop
+		int asInt = random.ints(10, 20 + 1).limit(10).findFirst().getAsInt();
+		System.out.println(asInt);
+		
+		
+		random.ints(5, 10, 16).forEach(System.out::println);
+		
+		
+-------------------------------------------------------------
+
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	
 	
 	
