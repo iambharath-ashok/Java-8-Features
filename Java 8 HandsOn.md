@@ -2470,6 +2470,11 @@ list.stream().map(x -> x.getBook()).flatMap(x -> x.stream()).distinct().collect(
 				a.	ArrayUtils
 					
 					ArrayUtil.addAll() method can be used to add merge the two or more arrays
+					
+					
+				Code Snippet: 
+				
+					ArrayUtil.addAll(array1, array2);
 				
 				<dependency>
 					<groupId>org.apache.commons</groupId>
@@ -2479,10 +2484,14 @@ list.stream().map(x -> x.getBook()).flatMap(x -> x.stream()).distinct().collect(
 					
 			2. 	Java 8 Stream
 								
-				Sting[] - String Array
+				1.	Object 
+				
+					Sting[] - String Array
 					String [] result = Stream.of(s1, s2, s3).flatMap(Stream::of).toArray(String[]::new);
 		
-				int[] - int Array
+				2.	Primitive Arrays
+					
+					int[] - int Array
 					int[] result2 = IntStream.concat(Arrays.stream(int1), Arrays.stream(int2)).toArray();
 					int[] result3 = IntStream.concat(Arrays.stream(int1), 
 					IntStream.concat(Arrays.stream(int2), Arrays.stream(int3))).toArray();
@@ -2500,11 +2509,6 @@ list.stream().map(x -> x.getBook()).flatMap(x -> x.stream()).distinct().collect(
 		-	Java 8
 		
 			Stream<Character> streamChar =   "StringToChar".char().mapToObj(c -> (char)c);
-	
-	
-	
-	
-	
 	
 	
 	
@@ -2587,17 +2591,222 @@ list.stream().map(x -> x.getBook()).flatMap(x -> x.stream()).distinct().collect(
 		
 -------------------------------------------------------------
 
+## 21.	Primitive Array to List
+
+int [] intArray = {1, 3, 4,5,3,2,5,3};
+List<int[]> ints = Arrays.asList(intArray);
+
+
+-	To convert int[] array to List  
+
+	List<Integer> list = Arrays.stream(intArray).boxed().collect(Collectors.toList());
+
+-------------------------------------------------------------
+
+## 22. IntStream or Primitive Stream
+
+-	Examples of IntStream
+
+
+#### Code Snippet of Primitive Stream
+	
+		int [] intArray = {1, 2, 3, 4, 5, 6, 7, 8, 9, 0};
+		
+		Stream<Integer> intStream = Arrays.stream(intArray).boxed().collect(Collectors.toList());
+		
+		IntStream intStream = IntStream.of(intArray);	
+		IntStream.of(10);
+		IntStream.of(1,3,5,6,7);
+		
+		IntStream.concat(Arrays.stream(intArray1), Arrays.stream(intArray2));
+		
+		
+	
+		IntStream.range(0, 5);// Output: 0, 1, 2, 3, 4
+		IntStream.rangeClosed(0, 5); // Output: 0, 1, 2, 3, 4 
+			
+		IntStream.range(startInclusive, endExclusive);
+		IntStream.rangeClosed(startInclusive, endInclusive);		
+		
+		
+		IntStream.range(0, 5)// can be used instead of for loop
+		
+		for(int i = startInclusive; i < endExclusive; i ++ ) {
+		}
+		
+		
+#####	Finding if Array Contains elements 
+
+		IntStream.of(intArray).anyMatch(x -> x == 9); // true // at-least one element should be there
+		
+		IntStream.of(intArray).allMatch(x -> x == 9); // false // All elements should match with element ie. ..9
+		
+####	Finding all the elements of IntStream of Int Array
+
+
+		IntStream.of(1, 4, 5, 5, 6, 8).sum();
+		IntStream.of(1, 4, 5, 5, 6, 8).min();
+		IntStream.of(1, 4, 5, 5, 6, 8).max();
+		IntStream.of(1, 4, 5, 5, 6, 8).average();
+
+
+
+-------------------------------------------------------------
+
+## 23. Reading Files in Java 8
+
+
+### 1.	Files.lines and Paths.get
+
+-	Files and Paths are classes from java.nio package
+-	Non-Blocking package was introduced in Java 7
+-	Files.lines() method is introduced in Java 8
+- 	Files.lines() method returns a Stream<String> of String
+
+### 2.	Stream
+
+#### Code Snippet:
+	
+		try (Stream<String> lines = Files.lines(Paths.get("files/file.txt"), StandardCharsets.ISO_8859_1)) {
+			
+			lines.forEach(System.out::println);
+			
+		} catch(IOException e) {
+			e.printStackTrace();
+		}
+		
+### 3.	BufferedReader and Stream with Files and Paths
+		
+#### Code Snippet:
+		
+		try(BufferedReader br = Files.newBufferedReader(Paths.get("files/file.txt"))) {
+			
+			List<String> collect =  br.lines().collect(Collectors.toList());
+		
+		} catch(IOException e) {
+			e.printStackTrace();
+		}
+		
+### 4.	Classic BufferedReader and Scanner
+
+#### Code Snippet #1 of BufferedReader:
+
+		try {
+			BufferedReader br = new BufferedReader(FileReader("files/file.txt")); 
+			
+			String line = "";
+			while((line = br.readLines()) != null){
+				System.out.println(line);
+			}
+		
+		} catch(IOException e){
+			e.printStackTrace();
+		}
+
+#### Code Snippet #2 of Scanner:
+
+		try{
+			Scanner scan = new Scanner(new File("files/file.txt"));
+			
+			while(scan.hasNext()) {
+				System.out.println(scan.nextLine());
+			}
+			
+		} catch(IOException e) {
+			e.printStackTrace();
+		}	
+
+-------------------------------------------------------------
+
+## 24. Java 8 Date Time API
+
+
+### Need for new Date Time API
+
+####	1.	Not consistent and Poor Design
+
+-	No uniformity b/w month, year, date
+-	No direct utility methods 
+-	Complex to parse the dates across different formats
+-	Difficult to parse and format with Si
+- 	Two different Confusing java.util.Date and java.sql.Date Classes
+ 
+####	2.	Not Thread Safe and Mutable
+
+-	java.util.Date is not Thread Safe 
+-	java.util.Date is mutable
+-	Developers needs to handle Thread Safety by implementing Synchronization
+-	SimpleDateFormat is not Thread Safe Class --> Multiple Threads can't work on SimpleDataFormatter
+
+
+####	3.	Difficult TimeZone Handling
+
+-	Needs to write lot of code for handling timezone support
+-	TimeZone is difficult to handle
+
+
+
+### Java 8 API Changes and Advantages
+
+####	1. 	Thread Safe and Immutable 
+
+-	All Classes in java.time package are immutable and Thread Safe 
+-	Class from java.time package are good for Multi-Threaded  enviroment
+
+
+####	2.	Separation of Concerns 
+
+-	Separate classes for Date, Time, DateTime, TimeZone, TimeStamp	
+-	Easy to perform operations
+
+####	3.	Clarity
+
+-	All the classes uses Factory Design and Strategy pattern for better handling
+-	Methods are clear and performs same operation across all classes
+	
+	-	Ex: now() is defined all classes and performs same operation 
+	-	now() gives the current instance
+	-	format() and parse() methods are defined in all of these classes
 	
 
+4.	Utility Operations
+
+-	All Date and Time API classes comes with utility methods for common operations like plus(), minus(), format(), parsing()
 
 
 
+###	Java 8 DateTime Packages
+
+####	1.	java.time package
+
+-	java.time package is a base package
+-	java.time contains base classes like 
+
+	-	LocalDate
+	-	LocalTime
+	-	LocalDateTime
+	-	Instant 
+	-	Period
+	-	Duration
+	
+####	2.	java.time.format package
+
+-	java.time.format package contains classes that are used for formatting and parsing 
+-	Not used frequently
+-	Base classes provides methods() to parse and format dates
 
 
+####	3.	java.time.temporal 
+
+-	package classes used to find first or last day of months
 
 
+####	4.	java.time.zone package 
+
+-	Contains classes to support TimeZone operations
 
 
+-------------------------------------------------------------
 
 
 
