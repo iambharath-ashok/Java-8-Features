@@ -2728,7 +2728,7 @@ List<int[]> ints = Arrays.asList(intArray);
 -	No uniformity b/w month, year, date
 -	No direct utility methods 
 -	Complex to parse the dates across different formats
--	Difficult to parse and format with Si
+-	Difficult to parse and format with SimpleDateFormatter
 - 	Two different Confusing java.util.Date and java.sql.Date Classes
  
 ####	2.	Not Thread Safe and Mutable
@@ -2769,7 +2769,7 @@ List<int[]> ints = Arrays.asList(intArray);
 	-	format() and parse() methods are defined in all of these classes
 	
 
-4.	Utility Operations
+#### 4.	Utility Operations
 
 -	All Date and Time API classes comes with utility methods for common operations like plus(), minus(), format(), parsing()
 
@@ -2824,6 +2824,7 @@ Zoned : Specialized date-time API to deal with various timezones.
 
 #### Code Snippets 
 
+```java
 		// Current Date
 		LocalDate date =  LocalDate.now(); // 2019-01-17
 		
@@ -2845,7 +2846,7 @@ Zoned : Specialized date-time API to deal with various timezones.
 		
 		//Getting 100th day of 2019
 		LocalDate date = LocalDate.ofYearDay(2019, 100); // 
-		
+````		
 		
 ###	2. LocalTime
 
@@ -2857,7 +2858,8 @@ Zoned : Specialized date-time API to deal with various timezones.
 
 
 	Code Snippets
-		
+
+```java	
 		//LocalTime time = LocalTime.now();
 		
 		
@@ -2866,6 +2868,8 @@ Zoned : Specialized date-time API to deal with various timezones.
 		// LocalTime time = LocalTime.of(12, 20, 25, 40); // 12:20:25.00000040
 		
 		// LocalTime time = LocalTime.ofSecondDay(1000); // 02:46:40
+````
+
 		
 ###	3.	LocalDateTime
 
@@ -2876,7 +2880,8 @@ Zoned : Specialized date-time API to deal with various timezones.
 -	If we provide invalid arguments for creating Date/Time, then it throws java.time.DateTimeException 
 -	That is a RuntimeException, so we don’t need to explicitly catch it
 
-	
+	Code snippets:
+```java	
 	//	LocalDateTime dateTime = LocalDateTime.now();
 	
 	
@@ -2896,7 +2901,7 @@ Zoned : Specialized date-time API to deal with various timezones.
 		
 	//Getting date from the base date i.e 01/01/1970
 		LocalDateTime dateFromBase = LocalDateTime.ofEpochSecond(10000, 0, ZoneOffset.UTC);
-
+````
 
 		
 
@@ -2911,6 +2916,7 @@ Zoned : Specialized date-time API to deal with various timezones.
 	
 #### Code Snippets
 
+```java
 		//Current timestamp
 		Instant timestamp = Instant.now();
 		System.out.println("Current Timestamp = "+timestamp);
@@ -2922,7 +2928,7 @@ Zoned : Specialized date-time API to deal with various timezones.
 		//Duration example
 		Duration thirtyDay = Duration.ofDays(30);
 		System.out.println(thirtyDay);
-		
+````		
 		
 		
 ###	4.	Duration
@@ -2932,10 +2938,11 @@ Zoned : Specialized date-time API to deal with various timezones.
 
 #### Code snippets 
 
+```java
 	//Duration example
 	Duration thirtyDay = Duration.ofDays(30);
 	System.out.println(thirtyDay);	 //PT720H
-
+````
 		
 ### 5.	Java 8 API utilities
 
@@ -2944,6 +2951,7 @@ Zoned : Specialized date-time API to deal with various timezones.
 
 #### Code Snippets:
 
+```java
 	LocalDate today = LocalDate.now();
 	today.getYear();
 	today.getMonth();
@@ -2970,7 +2978,7 @@ Zoned : Specialized date-time API to deal with various timezones.
 	Period period = today.until(lastDayOfYear);
 	System.out.println("Period Format= "+period); //P8M3D
 	System.out.println("Months remaining in the year= "+period.getMonths());	//Months remaining in the year= 8
-
+````
 
 ### 6. Java 8 Date Parsing and Formatting
 
@@ -2981,6 +2989,7 @@ Zoned : Specialized date-time API to deal with various timezones.
 
 #### Code Snippets:
 
+```java
 		LocalDateTime dateTime = LocalDateTime.now();
 		//default format
 		System.out.println("Default format of LocalDate="+date); // Default format of LocalDate=2014-04-28
@@ -3030,7 +3039,7 @@ Zoned : Specialized date-time API to deal with various timezones.
 
 		LocalDateTime specificDate =  
         current.withDayOfMonth(24).withYear(2016);	
-
+````
 
 ### 7.	Java 8 Date API Legacy Date Time Support
 
