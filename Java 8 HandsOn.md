@@ -4,9 +4,27 @@
 
 ## Stream API
 
--	Sequence of Elements
--	Source
--	Aggregate Operations
+-	Stream operations are mainly divided into two categories : 
+	
+	-	Intermediate operations
+	-	Terminal operations
+	
+- 	Intermediate operations such as filter() or map() returns a new Stream
+-	While terminal operations such as Stream.forEach() produce a result or side effect
+-	After the terminal operation, the stream pipeline is considered consumed, and can no longer be used
+-   Intermediate operations are also of two types:
+	
+	-	Stateless
+	-	Stateful
+	
+-	As name suggests, Stateless operations doesn't retain any state from previously processed element
+-	filter() and map() are two examples of stateless intermediate operation
+-	On the other hand distinct() and sorted() are example of Stateful operations	
+- 	Which can have state from previously processed elements, while processing new elements
+
+
+
+
 	
 1. Stream Operations
 
@@ -25,6 +43,7 @@
 			-	map() method extract the elements and transform it from one form to another form
 			
 		-	collect	<-	List<Integer>
+		
 2. Stream vs Collections
 
 	-	Collections is Data Structure for storing the data
@@ -2746,6 +2765,18 @@ List<int[]> ints = Arrays.asList(intArray);
 
 
 
+### Time Zone
+
+
+-	Time Zone is a region of the earth where the same standard time is used
+-	Each Time Zone is described and identified by an identifier 
+-	Identifier has a format of Region/City (Asia/Kolkata) and an offset from Greenwich/UTC 
+-	EX: Offset for Kolkata is +05.30
+-	
+
+
+---------------------------
+
 ### Java 8 API Changes and Advantages
 
 ####	1. 	Thread Safe and Immutable 
@@ -2758,6 +2789,7 @@ List<int[]> ints = Arrays.asList(intArray);
 
 -	Separate classes for Date, Time, DateTime, TimeZone, TimeStamp	
 -	Easy to perform operations
+-	Defines Principle Date-Time concepts like Duration, Date, Time, Period, Instant, TimeZone based on ISO Calender System
 
 ####	3.	Clarity
 
@@ -2775,6 +2807,10 @@ List<int[]> ints = Arrays.asList(intArray);
 
 Local : Simplified date-time API with no complexity of timezone handling.
 Zoned : Specialized date-time API to deal with various timezones.
+
+
+
+---------------------------
 
 ###	Java 8 DateTime Packages
 
@@ -2809,7 +2845,7 @@ Zoned : Specialized date-time API to deal with various timezones.
 
 -------------------------------------------------------------
 
-## 	Java 8 Date Time API examples 
+## 	Java 8 Date/Time API Classes 
 
 
 ### 1. LocalDate 
@@ -2825,27 +2861,27 @@ Zoned : Specialized date-time API to deal with various timezones.
 #### Code Snippets 
 
 ```java
-		// Current Date
-		LocalDate date =  LocalDate.now(); // 2019-01-17
-		
-		
-		//Creating by LocalDate by ZoneId
-		LocalDate date = LocalDate.now(ZoneId.of("Aisa/Kolkata")); // Current Date in IST 2019-01-17
-		
-		//Creating LocalDate by providing input arguments
-		LocalDate date = LocalDate.now(2015, Month.SEPTEMBER, 7); // 2015-09-07
-		
-		// Creating date by giving invalid date as input
-		// Throws Exception
-		LocalDate date = LocalDate.of(2014, Month.FEBRAURY, 29);
-		
-		//Base date is 01/01/1970
-		// Getting date from Base Date of 01/01/1970
-		LocalDate date = LocalDate.ofEpochDay(365); // 01/01/1971
-		
-		
-		//Getting 100th day of 2019
-		LocalDate date = LocalDate.ofYearDay(2019, 100); // 
+	// Current Date
+	LocalDate date =  LocalDate.now(); // 2019-01-17
+	
+	
+	//Creating by LocalDate by ZoneId
+	LocalDate date = LocalDate.now(ZoneId.of("Aisa/Kolkata")); // Current Date in IST 2019-01-17
+	
+	//Creating LocalDate by providing input arguments
+	LocalDate date = LocalDate.now(2015, Month.SEPTEMBER, 7); // 2015-09-07
+	
+	// Creating date by giving invalid date as input
+	// Throws Exception
+	LocalDate date = LocalDate.of(2014, Month.FEBRAURY, 29);
+	
+	//Base date is 01/01/1970
+	// Getting date from Base Date of 01/01/1970
+	LocalDate date = LocalDate.ofEpochDay(365); // 01/01/1971
+	
+	
+	//Getting 100th day of 2019
+	LocalDate date = LocalDate.ofYearDay(2019, 100); // 
 ````		
 		
 ###	2. LocalTime
@@ -2860,14 +2896,14 @@ Zoned : Specialized date-time API to deal with various timezones.
 	Code Snippets
 
 ```java	
-		LocalTime time = LocalTime.now();
-		
-		
-		LocalTime time = LocalTime.now(ZoneId.of("Australia/Sydney")); //
-		
-		LocalTime time = LocalTime.of(12, 20, 25, 40); // 12:20:25.00000040
-		
-	    LocalTime time = LocalTime.ofSecondDay(1000); // 02:46:40
+	LocalTime time = LocalTime.now();
+	
+	
+	LocalTime time = LocalTime.now(ZoneId.of("Australia/Sydney")); //
+	
+	LocalTime time = LocalTime.of(12, 20, 25, 40); // 12:20:25.00000040
+	
+	LocalTime time = LocalTime.ofSecondDay(1000); // 02:46:40
 ````
 
 		
@@ -2910,30 +2946,42 @@ Zoned : Specialized date-time API to deal with various timezones.
 -	Instant class is Immutable and Thread Safe
 -	Used to work machine readable time format
 -	It store time in unix timestamp 
-
-
+-	Instant class needs to be used for representing the specific timestamp ant any moment
+-	Instant class represents an instant in time to an accuracy of nanoseconds
+-	Instant - It represents a time-stamp e.g. 2014-01-14T02:20:13.592Z 
+-	Operations on an Instant include comparison to another Instant and adding or subtracting a duration
+-   Can be obtained from java.time.Clock class as shown below :
 	
+		Instant current = Clock.system(ZoneId.of("Asia/Tokyo")).instant();
 	
 #### Code Snippets
 
 ```java
-		//Current timestamp
-		Instant timestamp = Instant.now();
-		System.out.println("Current Timestamp = "+timestamp);
-		
-		//Instant from timestamp
-		Instant specificTime = Instant.ofEpochMilli(timestamp.toEpochMilli());
-		System.out.println("Specific Time = "+specificTime);
-		
-		//Duration example
-		Duration thirtyDay = Duration.ofDays(30);
-		System.out.println(thirtyDay);
+	//Current timestamp
+	Instant timestamp = Instant.now();
+	System.out.println("Current Timestamp = "+timestamp);
+	
+	//Instant from timestamp
+	Instant specificTime = Instant.ofEpochMilli(timestamp.toEpochMilli());
+	System.out.println("Specific Time = "+specificTime);
+	
+
+	
+	Instant instant = Instant.now();
+	System.out.println(instant.toString());                                 //2013-05-15T05:20:08.145Z
+	System.out.println(instant.plus(Duration.ofMillis(5000)).toString());   //2013-05-15T05:20:13.145Z
+	System.out.println(instant.minus(Duration.ofMillis(5000)).toString());  //2013-05-15T05:20:03.145Z
+	System.out.println(instant.minusSeconds(10).toString());                //2013-05-15T05:19:58.145Z
 ````		
 		
 		
 ###	4.	Duration
 
 -	Thread Safe and Immutable
+-	Duration class is a whole new concept brought first time in java language.
+-	It represents the time difference between two time stamps
+-	Duration deals with small unit of time such as milliseconds, seconds, minutes and hour.
+-	They are more suitable for interacting with application code.
 
 
 #### Code snippets 
@@ -2942,9 +2990,442 @@ Zoned : Specialized date-time API to deal with various timezones.
 	//Duration example
 	Duration thirtyDay = Duration.ofDays(30);
 	System.out.println(thirtyDay);	 //PT720H
+	
+	Duration duration = Duration.ofMillis(5000);
+	System.out.println(duration.toString());     //PT5S
+	 
+	duration = Duration.ofSeconds(60);
+	System.out.println(duration.toString());     //PT1M
+	 
+	duration = Duration.ofMinutes(10);
+	System.out.println(duration.toString());     //PT10M
+	 
+	duration = Duration.ofHours(2);
+	System.out.println(duration.toString());     //PT2H
+	 
+	duration = Duration.between(Instant.now(), Instant.now().plus(Duration.ofMinutes(10)));
+	System.out.println(duration.toString());  //PT10M	
 ````
+
+
+### 5.	Period 
+
+-	To interact with human, you need to get bigger durations which are presented with Period class.
+
+
+#### Code Snippets :
+
+	Period period = Period.ofDays(6);
+	System.out.println(period.toString());    //P6D
+	 
+	period = Period.ofMonths(6);
+	System.out.println(period.toString());    //P6M
+	 
+	period = Period.between(LocalDate.now(),
+				LocalDate.now().plusDays(60));
+	System.out.println(period.toString());   //P1M29D
+
+### 6.	DateTimeFormatter
+	
+-	Thread Safe and Immutable
+-	DateFormatter class provides numerous predefined formatters and also can define your own
+-	DateTimeFormatter has parse() method to convert String to Date in Java and throws DateTimeParseException
+-	format() method to format dates in Java, and it throws DateTimeException
+
+
+### 7.	Utility classes over existing enums
+
+#### DayOfWeek
+
+#####	Code Snippets:
+	
+			//day-of-week to represent, from 1 (Monday) to 7 (Sunday)
+			System.out.println(DayOfWeek.of(2));                    //TUESDAY
+			 
+			DayOfWeek day = DayOfWeek.FRIDAY;
+			System.out.println(day.getValue());                     //5
+			 
+			LocalDate localDate = LocalDate.now();
+			System.out.println(localDate.with(DayOfWeek.MONDAY));  //2013-05-13  i.e. when was monday in current week ?
+			
+
+
+#### Date Adjusters
+	
+#####	Code Snippets:
+
+			LocalDate date = LocalDate.of(2013, Month.MAY, 15);                     //Today
+			 
+			LocalDate endOfMonth = date.with(TemporalAdjusters.lastDayOfMonth());
+			System.out.println(endOfMonth.toString());                              //2013-05-31
+			 
+			LocalDate nextTue = date.with(TemporalAdjusters.next(DayOfWeek.TUESDAY));
+			System.out.println(nextTue.toString());      
+
+
+
+#### Creating date objects
+
+-	Creating date objects now can be done using builder pattern 
+-	The builder pattern allows the object you want to be built up using individual parts.
+-	This is achieved using the methods prefixed by “at”.
+			
+			
+	Code Snippets:
 		
-### 5.	Java 8 API utilities
+		//Builder pattern used to make date object
+		 OffsetDateTime date1 = Year.of(2013)
+								.atMonth(Month.MAY).atDay(15)
+								.atTime(0, 0)
+								.atOffset(ZoneOffset.of(&quot;+03:00&quot;));
+		 System.out.println(date1);                                     //2013-05-15T00:00+03:00
+		 
+		//factory method used to make date object
+		OffsetDateTime date2 = OffsetDateTime.
+								of(2013, 5, 15, 0, 0, 0, 0, ZoneOffset.of(&quot;+03:00&quot;));
+		System.out.println(date2);     
+	
+	
+-------------------------------------------------------------
+## 	Examples of Java 8  DateTime API
+
+### 1.	Example 1 - How to get today's date in Java 8
+
+
+
+	Code Snippet :
+	
+		LocalDate today = LocalDate.now(); 
+		System.out.println("Today's Local date : " + today);
+
+		Output Today's Local date : 2014-01-14
+		
+
+### 2: Example 2 - How to get current day, month and year in Java 8
+
+
+	Code Snippet: 
+	
+		LocalDate today = LocalDate.now();
+		int year = today.getYear();
+		int month = today.getMonthValue();
+		int day = today.getDayOfMonth();
+		System.out.printf("Year : %d Month : %d day : %d \t %n", year, month, day); 
+		
+		Output: 
+			Today's Local date :	2014-01-14 
+			Year : 2014 Month : 1 day : 14 
+
+
+###	3.	Example 3 - How to get a particular date in Java 8
+
+
+	Code Snippet:
+	
+		LocalDate dateOfBirth = LocalDate.of(2010, 01, 14);
+		System.out.println("Your Date of birth is : " + dateOfBirth);
+
+		Output :
+
+			Your Date of birth is : 2010-01-14
+		
+	
+### 4. Example 4 - How to check if two dates are equal in Java 8
+
+	
+	Code Sippets :
+	
+		LocalDate date1 = LocalDate.of(2014, 01, 14);
+
+		if(date1.equals(today))
+		{ 
+			System.out.printf("Today %s and date1 %s are same date %n", today, date1); 
+		} 
+			
+		Output: 
+			Today 2014-01-14 and date1 2014-01-14 are same date
+
+	
+
+### 5.	Example 5 - How to check for recurring events e.g. birthday in Java 8
+
+
+	Code Snippets:
+	
+		LocalDate dateOfBirth = LocalDate.of(2010, 01, 14);
+		MonthDay birthday = MonthDay.of(dateOfBirth.getMonth(), dateOfBirth.getDayOfMonth());
+		MonthDay currentMonthDay = MonthDay.from(today); 
+		if(currentMonthDay.equals(birthday)){ 
+			System.out.println("Many Many happy returns of the day !!"); 
+		}else{ 
+			System.out.println("Sorry, today is not your birthday");
+		}
+
+		Output:
+		
+			Many Many happy returns of the day !!
+		
+		
+		
+### 6.	Example 6 - How to get current Time in Java 8
+
+
+	Code Snippets:
+	
+		LocalTime time = LocalTime.now();
+		System.out.println("local time now : " + time);
+
+		Output: 
+		    local time now : 16:33:33.369  // in hour, minutes, seconds, nano seconds
+
+
+###	7. 	Example 7 - How to add hours in time
+
+		
+		
+		Code Snippets:
+		
+			LocalTime time = LocalTime.now();
+			LocalTime newTime = time.plusHours(2); 
+			// adding two hours
+			System.out.println("Time after 2 hours : " + newTime);
+		
+		Output : 
+			Time after 2 hours : 18:33:33.369
+
+###	8. 	Example 8 - How to find Date after 1 week
+
+		Code Snippets:
+		
+			LocalDate nextWeek = today.plus(1, ChronoUnit.WEEKS);
+			System.out.println("Today is : " + today);
+			System.out.println("Date after 1 week : " + nextWeek);
+
+
+			Output: Today is:
+				2014-01-14 
+				Date after 1 week : 2014-01-21
+
+
+### 9.	Example 9 - Date before and after 1 year
+
+
+	LocalDate previousYear = today.minus(1, ChronoUnit.YEARS);
+	System.out.println("Date before 1 year : " + previousYear);
+	LocalDate nextYear = today.plus(1, YEARS); 
+	System.out.println("Date after 1 year : " + nextYear);
+
+	Output: 
+	
+		Date before 1 year : 2013-01-14
+		Date after 1 year : 2015-01-14
+		
+		
+### 10. Example 10 - Using Clock in Java 8
+
+-	Clock is used to get Current Instant using Time, Date, Zone
+-	Clock can be used in place of System.currentTimeInMillis()
+
+
+	Code Snippet:
+	
+		// Returns the current time based on your system clock and set to UTC.
+		Clock clock = Clock.systemUTC();
+		System.out.println("Clock : " + clock);
+		// Returns time based on system clock zone 
+		Clock defaultClock = Clock.systemDefaultZone(); 
+		System.out.println("Clock : " + clock);
+
+		Output:
+			
+			Clock : SystemClock[Z]
+			Clock : SystemClock[Z]
+
+
+### 11.	Example 11 - How to see if a date is before or after another date in Java
+
+
+
+	Code Snippet:
+	
+		LocalDate tomorrow = LocalDate.of(2014, 1, 15);
+     
+		if(tommorow.isAfter(today)){
+			System.out.println("Tomorrow comes after today");
+		}
+			 
+		LocalDate yesterday = today.minus(1, DAYS);
+
+		if(yesterday.isBefore(today)){
+			System.out.println("Yesterday is day before today");
+		}
+			 
+		Output:
+		Tomorrow comes after today
+		Yesterday is day before today
+
+
+
+### 12. 	Example 12 - Dealing with time zones in Java 8
+
+
+	Code Snippet:
+	
+		// Date and time with timezone in Java 8 
+		ZoneId america = ZoneId.of("America/New_York");
+		LocalDateTime localtDateAndTime = LocalDateTime.now();
+		ZonedDateTime dateAndTimeInNewYork = ZonedDateTime.of(localtDateAndTime, america );
+		System.out.println("Current date and time in a particular timezone : " + dateAndTimeInNewYork); 
+		
+		Output : 
+		
+			Current date and time in a particular timezone : 2014-01-14T16:33:33.373-05:00[America/New_York]
+
+			
+### 13.	Example 13 - How to represent fixed date e.g. credit card expiry, YearMonth
+
+		
+	Code Snippets:
+	
+		YearMonth currentYearMonth = YearMonth.now();
+		System.out.printf("Days in month year %s: %d%n", currentYearMonth, currentYearMonth.lengthOfMonth());
+		YearMonth creditCardExpiry = YearMonth.of(2018, Month.FEBRUARY);
+		System.out.printf("Your credit card expires on %s %n", creditCardExpiry);
+
+		Output:
+
+		Days in month year 2014-01: 31 Your credit card expires on 2018-02 
+
+
+###	14.	Example 14 - How to check Leap Year in Java 8
+	
+	
+	Code Snippets:
+	
+		if(today.isLeapYear()){ 
+			System.out.println("This year is Leap year"); 
+		}else { 
+			System.out.println("2014 is not a Leap year"); 
+		} 
+		
+		Output:
+			
+			2014 is not a Leap year
+
+
+###	15.	Example 15 - How many days, month between two dates
+
+
+
+	Code Snippets:
+		
+		LocalDate java8Release = LocalDate.of(2014, Month.MARCH, 14);
+		Period periodToNextJavaRelease = Period.between(today, java8Release); 
+		System.out.println("Months left between today and Java 8 release : " + periodToNextJavaRelease.getMonths() );
+
+
+	Output:
+
+		Months left between today and Java 8 release : 2
+
+
+		
+		
+###	16. Example 16 - Date and Time with timezone offset
+
+	
+	Code Snippets:
+
+		LocalDateTime datetime = LocalDateTime.of(2014, Month.JANUARY, 14, 19, 30);
+		ZoneOffset offset = ZoneOffset.of("+05:30");
+		OffsetDateTime date = OffsetDateTime.of(datetime, offset);
+		System.out.println("Date and Time with timezone offset in Java : " + date); 
+		
+	Output :
+		
+		Date and Time with timezone offset in Java : 2014-01-14T19:30+05:30
+
+		
+### 17. Example 17 - How to get current timestamp in Java 8
+
+
+-	Instant is used for machine readable format	
+
+
+	Code Snippets:
+	
+		Instant timestamp = Instant.now();
+		System.out.println("What is value of this instant " + timestamp);
+
+		Output :
+			
+			What is value of this instant 2014-01-14T08:33:33.379Z   
+		
+		
+
+
+###	18.	Example 18 -  How to parse/format date in Java 8 using predefined formatting
+
+
+
+	Code Snippets:
+	
+		String dayAfterTommorrow = "20140116"; 
+		LocalDate formatted = LocalDate.parse(dayAfterTommorrow, DateTimeFormatter.BASIC_ISO_DATE);
+		System.out.printf("Date generated from String %s is %s %n", dayAfterTommorrow, formatted); 
+		
+	Output :
+
+		Date generated from String 20140116 is 2014-01-16
+
+
+
+###	19.	Example 19 - How to parse date in Java using custom formatting
+
+	
+	
+	Code Snippets:
+	
+		String goodFriday = "Apr 18 2014";
+		try { 
+
+			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMM dd yyyy"); 
+			LocalDate holiday = LocalDate.parse(goodFriday, formatter); 
+			System.out.printf("Successfully parsed String %s, date is %s%n", goodFriday, holiday); 
+
+		} catch (DateTimeParseException ex) {
+			System.out.printf("%s is not parsable!%n", goodFriday); 
+			ex.printStackTrace();
+		} 
+		
+	Output : 
+	
+		Successfully parsed String Apr 18 2014, date is 2014-04-18
+
+	
+
+	
+###	20.	Example 20 - How to convert Date to String in Java 8, formatting dates
+
+
+	Code Snippets:
+	
+		LocalDateTime arrivalDate  = LocalDateTime.now();
+		try {
+			DateTimeFormatter format = DateTimeFormatter.ofPattern("MMM dd yyyy  hh:mm a");
+			String landing = arrivalDate.format(format);
+			System.out.printf("Arriving at :  %s %n", landing);
+		} catch (DateTimeException ex) {
+			System.out.printf("%s can't be formatted!%n", arrivalDate);
+			ex.printStackTrace();
+		}
+		
+		
+	Output : Arriving at :  Jan 14 2014  04:33 PM
+	
+	
+
+	### 7.	Java 8 API utilities
 
 -	Principle Date, Time classes provides various utility methods such as plus/minus days, weeks, months
 
@@ -2980,7 +3461,7 @@ Zoned : Specialized date-time API to deal with various timezones.
 	System.out.println("Months remaining in the year= "+period.getMonths());	//Months remaining in the year= 8
 ````
 
-### 6. Java 8 Date Parsing and Formatting
+### 21. Java 8 Date Parsing and Formatting
 
 - 	Parsing Date across different formats
 -	Converting String to Date and vice versa
@@ -2990,71 +3471,63 @@ Zoned : Specialized date-time API to deal with various timezones.
 #### Code Snippets:
 
 ```java
-		LocalDateTime dateTime = LocalDateTime.now();
-		//default format
-		System.out.println("Default format of LocalDate="+date); // Default format of LocalDate=2014-04-28
-		
-		System.out.println("Default format of LocalDateTime="+dateTime);
-		
-		
-		//specific format
-		System.out.println(dateTime.format(DateTimeFormatter.ofPattern("d::MMM::uuuu HH::mm::ss")));
-		System.out.println(dateTime.format(DateTimeFormatter.BASIC_ISO_DATE));
-		
-		// Output
-		Default format of LocalDateTime=2014-04-28T16:25:49.341
-		28::Apr::2014 16::25::49
-		20140428
-		
-		Instant timestamp = Instant.now();
-		//default format
-		System.out.println("Default format of Instant="+timestamp);
-		
-		//Parse examples
-		LocalDateTime dt = LocalDateTime.parse("27::Apr::2014 21::39::48", DateTimeFormatter.ofPattern("d::MMM::uuuu HH::mm::ss"));
-		System.out.println("Default format after parsing = "+dt);
-		
-		
-		// Output
-		Default format of Instant=2014-04-28T23:25:49.342Z
-	    Default format after parsing = 2014-04-27T21:39:48
-		
-		
-		// Parsing from Date to String
-		LocalDateTime current = LocalDateTime.now();
-		DateTimeFormatter format =  DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
-		String formatedDateTime = current.format(format);   
-		
-		Month month = current.getMonth(); 
-		int day = current.getDayOfMonth(); 
-		int seconds = current.getSecond(); 
-     
-		// Output 
-		current date and time : 2018-04-09T06:21:10.410
-		in foramatted manner 09-04-2018 06:21:10
-		
-		
-		LocalDate date2 = LocalDate.of(1950,1,26); 
-		System.out.println("the repulic day :"+date2);
+	LocalDateTime dateTime = LocalDateTime.now();
+	//default format
+	System.out.println("Default format of LocalDate="+date); // Default format of LocalDate=2014-04-28
+	
+	System.out.println("Default format of LocalDateTime="+dateTime);
+	
+	
+	//specific format
+	System.out.println(dateTime.format(DateTimeFormatter.ofPattern("d::MMM::uuuu HH::mm::ss")));
+	System.out.println(dateTime.format(DateTimeFormatter.BASIC_ISO_DATE));
+	
+	// Output
+	Default format of LocalDateTime=2014-04-28T16:25:49.341
+	28::Apr::2014 16::25::49
+	20140428
+	
+	Instant timestamp = Instant.now();
+	//default format
+	System.out.println("Default format of Instant="+timestamp);
+	
+	//Parse examples
+	LocalDateTime dt = LocalDateTime.parse("27::Apr::2014 21::39::48", DateTimeFormatter.ofPattern("d::MMM::uuuu HH::mm::ss"));
+	System.out.println("Default format after parsing = "+dt);
+	
+	
+	// Output
+	Default format of Instant=2014-04-28T23:25:49.342Z
+	Default format after parsing = 2014-04-27T21:39:48
+	
+	
+	// Parsing from Date to String
+	LocalDateTime current = LocalDateTime.now();
+	DateTimeFormatter format =  DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+	String formatedDateTime = current.format(format);   
+	
+	Month month = current.getMonth(); 
+	int day = current.getDayOfMonth(); 
+	int seconds = current.getSecond(); 
+ 
+	// Output 
+	current date and time : 2018-04-09T06:21:10.410
+	in foramatted manner 09-04-2018 06:21:10
+	
+	
+	LocalDate date2 = LocalDate.of(1950,1,26); 
+	System.out.println("the repulic day :"+date2);
 
-		LocalDateTime specificDate =  
-        current.withDayOfMonth(24).withYear(2016);	
+	LocalDateTime specificDate =  
+	current.withDayOfMonth(24).withYear(2016);	
 ````
 
-### 7.	Java 8 Date API Legacy Date Time Support
+### 22.	Java 8 Date API Legacy Date Time Support
 
 -	Java 8 supports Legacy Java Date Time APIs, parsing from vice versa
 
-
--------------------------------------------------------------
-
-
-
-
-
-
-
-
+	
+--------------------------------------------------------------------------
 
 
 
