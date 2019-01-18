@@ -2773,7 +2773,8 @@ List<int[]> ints = Arrays.asList(intArray);
 
 -	All Date and Time API classes comes with utility methods for common operations like plus(), minus(), format(), parsing()
 
-
+Local : Simplified date-time API with no complexity of timezone handling.
+Zoned : Specialized date-time API to deal with various timezones.
 
 ###	Java 8 DateTime Packages
 
@@ -2798,7 +2799,7 @@ List<int[]> ints = Arrays.asList(intArray);
 
 ####	3.	java.time.temporal 
 
--	package classes used to find first or last day of months
+-	package contains classes used to find first or last day of months
 
 
 ####	4.	java.time.zone package 
@@ -2808,17 +2809,235 @@ List<int[]> ints = Arrays.asList(intArray);
 
 -------------------------------------------------------------
 
+## 	Java 8 Date Time API examples 
+
+
+### 1. LocalDate 
+
+-	Immutable Class and Thread Safe 
+-	Default Format is yyyy-MM-dd	
+-	LocalDate.now() method is used to get current date 
+-	Can provide Year, month, date while creating LocalDate instance
+-	LocalDate class provides overloaded now() methods ... where we can pass ZoneId to get date by ZoneId
 
 
 
+#### Code Snippets 
+
+		// Current Date
+		LocalDate date =  LocalDate.now(); // 2019-01-17
+		
+		
+		//Creating by LocalDate by ZoneId
+		LocalDate date = LocalDate.now(ZoneId.of("Aisa/Kolkata")); // Current Date in IST 2019-01-17
+		
+		//Creating LocalDate by providing input arguments
+		LocalDate date = LocalDate.now(2015, Month.SEPTEMBER, 7); // 2015-09-07
+		
+		// Creating date by giving invalid date as input
+		// Throws Exception
+		LocalDate date = LocalDate.of(2014, Month.FEBRAURY, 29);
+		
+		//Base date is 01/01/1970
+		// Getting date from Base Date of 01/01/1970
+		LocalDate date = LocalDate.ofEpochDay(365); // 01/01/1971
+		
+		
+		//Getting 100th day of 2019
+		LocalDate date = LocalDate.ofYearDay(2019, 100); // 
+		
+		
+###	2. LocalTime
+
+-	Immutable and Thread Safe
+-	Default format is hh:mm:ss:ZZZ
+-	now() has overloaded methods
+-	Provides TimeZone support
+-	Can create instance by passing hour, minute, seconds
+
+
+	Code Snippets
+		
+		//LocalTime time = LocalTime.now();
+		
+		
+		// LocalTime time = LocalTime.now(ZoneId.of("Australia/Sydney")); //
+		
+		// LocalTime time = LocalTime.of(12, 20, 25, 40); // 12:20:25.00000040
+		
+		// LocalTime time = LocalTime.ofSecondDay(1000); // 02:46:40
+		
+###	3.	LocalDateTime
+
+-	Immutable and Thead Safe
+-	Default Date Time format is : yyyy-MM-dd-HH:mm:ss.zzz
+-	Provides current date and time 
+-	Provides Factory methods to take LocalTime and LocalDate as input and creates LocalDateTime instance from them
+-	If we provide invalid arguments for creating Date/Time, then it throws java.time.DateTimeException 
+-	That is a RuntimeException, so we don’t need to explicitly catch it
+
+	
+	//	LocalDateTime dateTime = LocalDateTime.now();
+	
+	
+	// LocalDateTime dateTime = LocalTimeDate.now(ZoneId.of("Asia/Kolkata"));	
+		
+	// LocalDateTime dateTime = LocalDateTime specificDate = LocalDateTime.of(2014, Month.JANUARY, 1, 10, 10, 30);
+
+	
+	//Current DateTime using LocalDate and LocalTime
+	LocalDateTime today = LocalDateTime.of(LocalDate.now(), LocalTime.now());
+	
+	//Try creating date by providing invalid inputs
+		//LocalDateTime feb29_2014 = LocalDateTime.of(2014, Month.FEBRUARY, 28, 25,1,1);
+		//Exception in thread "main" java.time.DateTimeException: 
+		//Invalid value for HourOfDay (valid values 0 - 23): 25
+
+		
+	//Getting date from the base date i.e 01/01/1970
+		LocalDateTime dateFromBase = LocalDateTime.ofEpochSecond(10000, 0, ZoneOffset.UTC);
+
+
+		
+
+### 3. Instant	
+
+-	Instant class is Immutable and Thread Safe
+-	Used to work machine readable time format
+-	It store time in unix timestamp 
+
+
+	
+	
+#### Code Snippets
+
+		//Current timestamp
+		Instant timestamp = Instant.now();
+		System.out.println("Current Timestamp = "+timestamp);
+		
+		//Instant from timestamp
+		Instant specificTime = Instant.ofEpochMilli(timestamp.toEpochMilli());
+		System.out.println("Specific Time = "+specificTime);
+		
+		//Duration example
+		Duration thirtyDay = Duration.ofDays(30);
+		System.out.println(thirtyDay);
+		
+		
+		
+###	4.	Duration
+
+-	Thread Safe and Immutable
+
+
+#### Code snippets 
+
+	//Duration example
+	Duration thirtyDay = Duration.ofDays(30);
+	System.out.println(thirtyDay);	 //PT720H
+
+		
+### 5.	Java 8 API utilities
+
+-	Principle Date, Time classes provides various utility methods such as plus/minus days, weeks, months
+
+
+#### Code Snippets:
+
+	LocalDate today = LocalDate.now();
+	today.getYear();
+	today.getMonth();
+	today.isLeapYear();
+	today.isBefore(LocalDate.of(2015,1,1));
+	
+	//Create LocalDateTime from LocalDate
+	today.atTime(LocalTime.now());
+	
+	//Plus minus operations
+	today.plusDays(10);
+	today.plusWeeks(3);
+	today.plusMonths(20);
+	today.minusWeeks(4);
+	today.minusDays(10);
+	today.minusMonths(20);
+	
+	
+	//Temporal adjusters for adjusting the dates
+	
+	LocalDate firstDayOfMonth =  today.with(TemporalAdjusters.firstDayOfMonth());
+	LocalDate lastDayOfYear =   today.with(TemporalAdjusters.lastDayOfYear());
+	
+	Period period = today.until(lastDayOfYear);
+	System.out.println("Period Format= "+period); //P8M3D
+	System.out.println("Months remaining in the year= "+period.getMonths());	//Months remaining in the year= 8
+
+
+### 6. Java 8 Date Parsing and Formatting
+
+- 	Parsing Date across different formats
+-	Converting String to Date and vice versa
 
 
 
+#### Code Snippets:
+
+		LocalDateTime dateTime = LocalDateTime.now();
+		//default format
+		System.out.println("Default format of LocalDate="+date); // Default format of LocalDate=2014-04-28
+		
+		System.out.println("Default format of LocalDateTime="+dateTime);
+		
+		
+		//specific format
+		System.out.println(dateTime.format(DateTimeFormatter.ofPattern("d::MMM::uuuu HH::mm::ss")));
+		System.out.println(dateTime.format(DateTimeFormatter.BASIC_ISO_DATE));
+		
+		// Output
+		Default format of LocalDateTime=2014-04-28T16:25:49.341
+		28::Apr::2014 16::25::49
+		20140428
+		
+		Instant timestamp = Instant.now();
+		//default format
+		System.out.println("Default format of Instant="+timestamp);
+		
+		//Parse examples
+		LocalDateTime dt = LocalDateTime.parse("27::Apr::2014 21::39::48", DateTimeFormatter.ofPattern("d::MMM::uuuu HH::mm::ss"));
+		System.out.println("Default format after parsing = "+dt);
+		
+		
+		// Output
+		Default format of Instant=2014-04-28T23:25:49.342Z
+	    Default format after parsing = 2014-04-27T21:39:48
+		
+		
+		// Parsing from Date to String
+		LocalDateTime current = LocalDateTime.now();
+		DateTimeFormatter format =  DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+		String formatedDateTime = current.format(format);   
+		
+		Month month = current.getMonth(); 
+		int day = current.getDayOfMonth(); 
+		int seconds = current.getSecond(); 
+     
+		// Output 
+		current date and time : 2018-04-09T06:21:10.410
+		in foramatted manner 09-04-2018 06:21:10
+		
+		
+		LocalDate date2 = LocalDate.of(1950,1,26); 
+		System.out.println("the repulic day :"+date2);
+
+		LocalDateTime specificDate =  
+        current.withDayOfMonth(24).withYear(2016);	
 
 
+### 7.	Java 8 Date API Legacy Date Time Support
+
+-	Java 8 supports Legacy Java Date Time APIs, parsing from vice versa
 
 
-
+-------------------------------------------------------------
 
 
 
