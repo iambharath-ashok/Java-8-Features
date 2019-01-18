@@ -2882,10 +2882,10 @@ Zoned : Specialized date-time API to deal with various timezones.
 
 	Code snippets:
 ```java	
-	//	LocalDateTime dateTime = LocalDateTime.now();
+	LocalDateTime dateTime = LocalDateTime.now();
 	
 	
-	// LocalDateTime dateTime = LocalTimeDate.now(ZoneId.of("Asia/Kolkata"));	
+	LocalDateTime dateTime = LocalTimeDate.now(ZoneId.of("Asia/Kolkata"));	
 		
 	// LocalDateTime dateTime = LocalDateTime specificDate = LocalDateTime.of(2014, Month.JANUARY, 1, 10, 10, 30);
 
