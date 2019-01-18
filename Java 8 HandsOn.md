@@ -2860,14 +2860,14 @@ Zoned : Specialized date-time API to deal with various timezones.
 	Code Snippets
 
 ```java	
-		//LocalTime time = LocalTime.now();
+		LocalTime time = LocalTime.now();
 		
 		
-		// LocalTime time = LocalTime.now(ZoneId.of("Australia/Sydney")); //
+		LocalTime time = LocalTime.now(ZoneId.of("Australia/Sydney")); //
 		
-		// LocalTime time = LocalTime.of(12, 20, 25, 40); // 12:20:25.00000040
+		LocalTime time = LocalTime.of(12, 20, 25, 40); // 12:20:25.00000040
 		
-		// LocalTime time = LocalTime.ofSecondDay(1000); // 02:46:40
+	    LocalTime time = LocalTime.ofSecondDay(1000); // 02:46:40
 ````
 
 		
